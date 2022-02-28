@@ -1,15 +1,20 @@
-const config = require('config');
-const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
+
+const User = require('../models/userModel');
 class AuthRepository {
   constructor() {}
 
-  async findUser(email, password) {
-    // const user = await User.findOne({ email }).select('+password');
-    // if (!user || !(await user.isPasswordMatch(password))) {
-    //   return null;
-    // }
-    // return user;
+  async findUser(email) {
+    try {
+      const userData = await User.findOne({ email });
+      if (!userData) {
+        return { errors: { errorMessage: 'Invalid credentials.', status: 401 } };
+      }
+
+      return userData;
+    } catch (error) {
+      return { errors: { errorMessage: 'Server Error.', status: 500 } };
+    }
   }
 
   async saveUser(email, password) {

@@ -8,16 +8,11 @@ const generateAuthToken = (user, handleCallback) => {
     },
   };
   try {
-    let token = jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 36000 }, handleCallback());
+    let token = jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '1h' }, handleCallback());
     return token;
   } catch (error) {
     throw { errors: { errorMessage: 'Server error', status: 500 } };
   }
 };
-// const verifyAuthToken = async (token) => {
-//   const payload = jwt.verify(token, process.env.TOKEN_SECRET);
-//   const user = await User.findOne(payload.user);
-//   return user;
-// };
 
 module.exports = { generateAuthToken };
