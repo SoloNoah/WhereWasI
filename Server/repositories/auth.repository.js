@@ -21,7 +21,7 @@ class AuthRepository {
       user = await new User({ email, password });
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
-      // await user.save();
+      await user.save();
       return user;
     } catch (error) {
       return { errors: { errorMessage: 'Server error', status: 500 } };
