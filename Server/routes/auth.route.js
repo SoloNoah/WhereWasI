@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const router = express.Router();
 
 /**
- * middlewars
+ * middlewares
  */
 const { validateUser } = require('../middlewares/validators/authValidator');
 router.post('/login', validateUser, authController.login);

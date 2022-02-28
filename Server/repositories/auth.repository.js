@@ -1,7 +1,6 @@
+const config = require('config');
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
 class AuthRepository {
   constructor() {}
 
@@ -14,24 +13,19 @@ class AuthRepository {
   }
 
   async saveUser(email, password) {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(200).json({ errors: [{ msg: 'User already exists.' }] });
+    try {
+      let user = await User.findOne({ email });
+      if (user) {
+        return { errors: { errorMessage: 'Invalid credentials.', status: 401 } };
+      }
+      user = await new User({ email, password });
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+      // await user.save();
+      return user;
+    } catch (error) {
+      return { errors: { errorMessage: 'Server error', status: 500 } };
     }
-    user = await new User({ email, password }).save();
-    // const salt = await bcrypt.genSalt(10);
-    // user.password = await bcrypt.hash(password, salt);
-    // await user.save();
-    // const payload = {
-    //   user: {
-    //     id: user.id,
-    //   },
-    // };
-    // jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
-    //   if (err) throw err;
-    //   res.json({ token });
-    // });
-    return user;
   }
 }
 
