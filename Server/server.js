@@ -5,10 +5,13 @@ const authRoutes = require('./routes/auth.route');
 const profileRoutes = require('./routes/profile.route');
 
 const app = express();
-connectDB();
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => res.send('Api running'));
+connectDB();
+
+app.use(express.json({ extended: false }));
+
+// app.get('/', (req, res) => res.send('Api running'));
 
 //routes
 app.use('/api/users', userRoutes);
