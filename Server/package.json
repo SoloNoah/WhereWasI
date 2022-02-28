@@ -1,0 +1,32 @@
+{
+  "name": "wherewasi",
+  "version": "1.0.0",
+  "description": "Track your episodes of anime shows you've watched",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoloNoah/WhereWasI.git"
+  },
+  "author": "Noah Solomon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SoloNoah/WhereWasI/issues"
+  },
+  "homepage": "https://github.com/SoloNoah/WhereWasI#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.7",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
