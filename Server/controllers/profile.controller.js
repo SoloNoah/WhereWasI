@@ -39,12 +39,36 @@ const addSeries = async (req, res) => {
     if (response.errors) {
       throw response.errors;
     }
+    if (response.success) {
+      const { successMessage, status } = response.success;
+      return res.status(status).send(successMessage);
+    }
   } catch (error) {
     const { errorMessage, status } = error;
     return res.status(status).send(errorMessage);
   }
-
-  res.send('added to user profile');
 };
 
-module.exports = { getProfile, addSeries };
+const removeSeries = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  const user = req.user;
+  const { mal_id } = req.body;
+  try {
+    const response = await profileRepository.removeSeries(mal_id, user);
+    if (response.errors) {
+      throw response.errors;
+    }
+    if (response.success) {
+      const { successMessage, status } = response.success;
+      return res.status(status).send(successMessage);
+    }
+  } catch (error) {
+    const { errorMessage, status } = error;
+    return res.status(status).send(errorMessage);
+  }
+};
+
+module.exports = { getProfile, addSeries, removeSeries };

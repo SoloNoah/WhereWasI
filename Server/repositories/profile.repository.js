@@ -17,6 +17,8 @@ class ProfileRepository {
 
   async addSeries(seriesToAdd, user) {
     const profileFields = { user: user.id, series: [seriesToAdd] };
+    let successMessage = 'Added series to user profile';
+
     try {
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
@@ -33,13 +35,35 @@ class ProfileRepository {
         if (!profile) {
           return { errors: { errorMessage: 'Server Error.', status: 500 } };
         }
-        return profile;
       } else {
         profileFields.series = [seriesToAdd];
         profile = new Profile(profileFields);
         await profile.save();
-        return profile;
       }
+      return { success: { status: 200, successMessage } };
+    } catch (error) {
+      return { errors: { errorMessage: 'Server Error.', status: 500 } };
+    }
+  }
+
+  async removeSeries(mal_id, user) {
+    try {
+      let profile = await this.findProfile(user.id);
+      let errors = profile.errors;
+      let removed = false;
+      if (!errors) {
+        const removeIndex = profile.series.map((item) => item.mal_id).indexOf(mal_id);
+        if (removeIndex >= 0) {
+          profile.series.splice(removeIndex, 1);
+          removed = true;
+        }
+      }
+      let successMessage = "Item doesn't exist in profile.";
+      if (removed) {
+        await profile.save();
+        successMessage = 'Removed from profile.';
+      }
+      return { success: { status: 200, successMessage } };
     } catch (error) {
       return { errors: { errorMessage: 'Server Error.', status: 500 } };
     }

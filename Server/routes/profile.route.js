@@ -9,6 +9,8 @@ const { verifyAuthToken } = require('../middlewares/validators/authValidator');
 const router = express.Router();
 
 router.post('/add-series', verifyAuthToken, profileController.addSeries);
+router.post('/remove-series', verifyAuthToken, profileController.removeSeries);
+
 router.get('/get-profile', verifyAuthToken, profileController.getProfile);
 
 
