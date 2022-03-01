@@ -20,20 +20,7 @@ const SeriesSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // title: {
-  //   type: String,
-  //   required: true,
-  // },
   episodes: [EpisodeSchema],
-  // type: {
-  //   type: String,
-  // },
-  // image_url: {
-  //   type: String,
-  // },
-  // start_date: {
-  //   type: Date,
-  // },
 });
 const ProfileSchema = new Schema({
   user: {

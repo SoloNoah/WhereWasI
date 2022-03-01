@@ -6,7 +6,6 @@ class ProfileRepository {
   async findProfile(id) {
     try {
       const userData = await Profile.findOne({ user: id });
-      console.log(userData);
       if (!userData) {
         return { errors: { errorMessage: 'No profile for user.', status: 400 } };
       }
@@ -19,8 +18,9 @@ class ProfileRepository {
   async addSeries(seriesToAdd, user) {
     const profileFields = { user: user.id, series: [seriesToAdd] };
     try {
-      let profile = await Profile.findOne({ user: user.id });
-      if (profile) {
+      let profile = await this.findProfile(user.id);
+      let errors = profile.errors;
+      if (!errors) {
         let seriesArray = [...profile.series];
         let seriesExists = seriesArray.find((series) => series.mal_id === seriesToAdd.mal_id);
         if (seriesExists) {
@@ -28,12 +28,12 @@ class ProfileRepository {
         }
         seriesArray.push(seriesToAdd);
         profileFields.series = seriesArray;
-        profile = await Profile.findOneAndUpdate(profileFields);
+        let id = profile.id;
+        profile = await Profile.findByIdAndUpdate(id, profileFields);
         if (!profile) {
           return { errors: { errorMessage: 'Server Error.', status: 500 } };
         }
         return profile;
-        // return { errors: { errorMessage: 'WIP.', status: 400 } };
       } else {
         profileFields.series = [seriesToAdd];
         profile = new Profile(profileFields);
