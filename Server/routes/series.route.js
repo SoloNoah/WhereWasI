@@ -5,7 +5,7 @@ const router = express.Router();
 /**
  * middlewares
  */
-const { validateUser, verifyAuthToken, validateLogin } = require('../middlewares/validators/authValidator');
+const { validateUser, verifyAuthToken, validateLogin} = require('../middlewares/validators/authValidator');
 
 router.post('/login', validateLogin, authController.login);
 router.post('/register', validateUser, authController.register);

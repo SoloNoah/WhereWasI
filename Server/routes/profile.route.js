@@ -1,8 +1,16 @@
 const express = require('express');
 const profileController = require('../controllers/profile.controller');
 
+/**
+ * middlewares
+ */
+const { verifyAuthToken } = require('../middlewares/validators/authValidator');
+
 const router = express.Router();
 
-router.route('/').get(profileController.getProfile);
+router.post('/add-series', verifyAuthToken, profileController.addSeries);
+router.get('/get-profile', verifyAuthToken, profileController.getProfile);
+
+
 
 module.exports = router;

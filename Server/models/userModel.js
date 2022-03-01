@@ -13,10 +13,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.methods.isPasswordMatch = async function (password) {
-  const user = this;
-  return decrypt(password) === decrypt(user.password);
-};
 
 const User = mongoose.model('Users', UserSchema);
 module.exports = User;

@@ -1,19 +1,43 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const SeriesSchema = new mongoose.Schema({
-  title: {
-    type: String,
+const EpisodeSchema = new mongoose.Schema({
+  mal_id: {
+    type: Number,
     required: true,
   },
-  data: {
-    type: String,
-    required: true,
+  episode: {
+    type: Number,
+  },
+  watched: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const ProfileSchema = new mongoose.Schema({
+const SeriesSchema = new mongoose.Schema({
+  mal_id: {
+    type: Number,
+    required: true,
+  },
+  // title: {
+  //   type: String,
+  //   required: true,
+  // },
+  episodes: [EpisodeSchema],
+  // type: {
+  //   type: String,
+  // },
+  // image_url: {
+  //   type: String,
+  // },
+  // start_date: {
+  //   type: Date,
+  // },
+});
+const ProfileSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'user',
   },
   series: [SeriesSchema],

@@ -12,12 +12,14 @@ const login = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
+
   const { email, password } = req.body;
   try {
     const user = await authRepository.findUser(email);
     if (user.errors) {
       throw user.errors;
     }
+    //TODO move this into the repository 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).send({ errorMessage: 'Invalid credentials.' });
