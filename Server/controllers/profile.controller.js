@@ -71,4 +71,26 @@ const removeSeries = async (req, res) => {
   }
 };
 
-module.exports = { getProfile, addSeries, removeSeries };
+const updateEpisodeStatus = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  const user = req.user;
+  const { mal_id, episodeClicked } = req.body;
+  try {
+    const response = await profileRepository.updateEpisodeStatus(mal_id, episodeClicked, user);
+    if (response.errors) {
+      throw response.errors;
+    }
+    if (response.success) {
+      const { successMessage, status } = response.success;
+      return res.status(status).send(successMessage);
+    }
+  } catch (error) {
+    const { errorMessage, status } = error;
+    return res.status(status).send(errorMessage);
+  }
+};
+
+module.exports = { getProfile, addSeries, removeSeries, updateEpisodeStatus };

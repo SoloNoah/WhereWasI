@@ -11,7 +11,8 @@ class ProfileRepository {
       }
       return userData;
     } catch (error) {
-      return { errors: { errorMessage: 'Server Error.', status: 500 } };
+      let errorMessage = error.message ? error.message : error.errorMessage;
+      return { errors: { errorMessage, status: 500 } };
     }
   }
 
@@ -23,26 +24,25 @@ class ProfileRepository {
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
       if (!errors) {
-        let seriesArray = [...profile.series];
+        let seriesArray = profile.series;
         let seriesExists = seriesArray.find((series) => series.mal_id === seriesToAdd.mal_id);
         if (seriesExists) {
           return { errors: { errorMessage: 'User already got show added to profile.', status: 400 } };
         }
         seriesArray.push(seriesToAdd);
-        profileFields.series = seriesArray;
-        let id = profile.id;
-        profile = await Profile.findByIdAndUpdate(id, profileFields);
         if (!profile) {
           return { errors: { errorMessage: 'Server Error.', status: 500 } };
         }
       } else {
         profileFields.series = [seriesToAdd];
         profile = new Profile(profileFields);
-        await profile.save();
       }
+      await profile.save();
+
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      return { errors: { errorMessage: 'Server Error.', status: 500 } };
+      let errorMessage = error.message ? error.message : error.errorMessage;
+      return { errors: { errorMessage, status: 500 } };
     }
   }
 
@@ -65,7 +65,39 @@ class ProfileRepository {
       }
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      return { errors: { errorMessage: 'Server Error.', status: 500 } };
+      let errorMessage = error.message ? error.message : error.errorMessage;
+      return { errors: { errorMessage, status: 500 } };
+    }
+  }
+
+  async updateEpisodeStatus(mal_id, episodeClicked) {
+    try {
+      let profile = await this.findProfile(user.id);
+      let errors = profile.errors;
+      let updated = false;
+
+      if (!errors) {
+        let seriesArray = profile.series;
+        let show = seriesArray.find((singleShow) => singleShow.mal_id == mal_id);
+        if (!show) {
+          return { errors: { errorMessage: 'Wrong show selected.', status: 400 } };
+        }
+        let epi = show.episodes.find((singleEpi) => singleEpi.episode == episodeClicked);
+        if (!epi) {
+          return { errors: { errorMessage: "Episode doesn't exist for chosen show.", status: 400 } };
+        }
+        epi.watched = !epi.watched;
+        await profile.save();
+        updated = true;
+      }
+      let successMessage = "Item doesn't exist in profile.";
+      if (updated) {
+        successMessage = 'Updated episode watched status.';
+      }
+      return { success: { status: 200, successMessage } };
+    } catch (error) {
+      let errorMessage = error.message ? error.message : error.errorMessage;
+      return { errors: { errorMessage, status: 500 } };
     }
   }
 
