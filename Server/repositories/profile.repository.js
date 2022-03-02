@@ -7,12 +7,12 @@ class ProfileRepository {
     try {
       const userData = await Profile.findOne({ user: id });
       if (!userData) {
-        return { errors: { errorMessage: 'No profile for user.', status: 400 } };
+        throw { errors: { errorMessage: 'No profile for user.', status: 400 } };
       }
       return userData;
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errorMessage;
-      return { errors: { errorMessage, status: 500 } };
+      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      throw { errors: { errorMessage, status: 500 } };
     }
   }
 
@@ -41,13 +41,14 @@ class ProfileRepository {
 
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errorMessage;
+      let errorMessage = error.message ? error.message : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };
     }
   }
 
   async removeSeries(mal_id, user) {
     try {
+      let successMessage = '';
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
       let removed = false;
@@ -56,16 +57,17 @@ class ProfileRepository {
         if (removeIndex >= 0) {
           profile.series.splice(removeIndex, 1);
           removed = true;
+          successMessage = 'Removed from profile.';
+        } else {
+          successMessage = "Item doesn't exist in profile.";
         }
       }
-      let successMessage = "Item doesn't exist in profile.";
       if (removed) {
         await profile.save();
-        successMessage = 'Removed from profile.';
       }
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errorMessage;
+      let errorMessage = error.message ? error.message : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };
     }
   }
@@ -74,7 +76,6 @@ class ProfileRepository {
     try {
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
-      let updated = false;
 
       if (!errors) {
         let seriesArray = profile.series;
@@ -88,16 +89,30 @@ class ProfileRepository {
         }
         epi.watched = !epi.watched;
         await profile.save();
-        updated = true;
       }
-      let successMessage = "Item doesn't exist in profile.";
-      if (updated) {
-        successMessage = 'Updated episode watched status.';
-      }
+
+      successMessage = 'Updated episode watched status.';
+
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errorMessage;
+      let errorMessage = error.message ? error.message : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };
+    }
+  }
+
+  async getEpisodes(mal_id, user) {
+    try {
+      let profile = await this.findProfile(user.id);
+      let show = profile.series.find((singleShow) => singleShow.mal_id == mal_id);
+      if (!show) {
+        throw { errors: { errorMessage: "No Such show in user's profile.", status: 500 } };
+      }
+      let response = show.episodes;
+
+      return { success: { status: 200, episodes: response } };
+    } catch (error) {
+      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      throw { errors: { errorMessage, status: 500 } };
     }
   }
 

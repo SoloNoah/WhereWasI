@@ -1,12 +1,10 @@
 const { validationResult } = require('express-validator');
+const url = require('url');
 
 const ProfileRepository = require('../repositories/profile.repository');
 
 const profileRepository = new ProfileRepository();
 
-/**
- * @Get
- */
 const getProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -20,7 +18,7 @@ const getProfile = async (req, res) => {
     }
     return res.status(200).send({ status: 200, userProfile });
   } catch (error) {
-    const { errorMessage, status } = error;
+    const { errorMessage, status } = error.errors;
     return res.status(status).send(errorMessage);
   }
 };
@@ -44,7 +42,7 @@ const addSeries = async (req, res) => {
       return res.status(status).send(successMessage);
     }
   } catch (error) {
-    const { errorMessage, status } = error;
+    const { errorMessage, status } = error.errors;
     return res.status(status).send(errorMessage);
   }
 };
@@ -66,7 +64,7 @@ const removeSeries = async (req, res) => {
       return res.status(status).send(successMessage);
     }
   } catch (error) {
-    const { errorMessage, status } = error;
+    const { errorMessage, status } = error.errors;
     return res.status(status).send(errorMessage);
   }
 };
@@ -88,9 +86,28 @@ const updateEpisodeStatus = async (req, res) => {
       return res.status(status).send(successMessage);
     }
   } catch (error) {
-    const { errorMessage, status } = error;
+    const { errorMessage, status } = error.errors;
     return res.status(status).send(errorMessage);
   }
 };
 
-module.exports = { getProfile, addSeries, removeSeries, updateEpisodeStatus };
+const getEpisodes = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  const user = req.user;
+  let mal_id = req.query.id;
+  try {
+    let response = await profileRepository.getEpisodes(mal_id, user);
+    console.log('Printing response');
+    console.log(response);
+    const { status, episodes } = response.success;
+    return res.status(status).send(episodes);
+  } catch (error) {
+    const { errorMessage, status } = error.errors;
+    return res.status(status).send(errorMessage);
+  }
+};
+
+module.exports = { getProfile, addSeries, removeSeries, updateEpisodeStatus, getEpisodes };
