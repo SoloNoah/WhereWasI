@@ -1,5 +1,5 @@
 :root {
-  --nav-bg: #093263;
+  --header-footer-bg: #093263;
 }
 
 html,
@@ -14,7 +14,7 @@ body {
 }
 
 nav {
-  background: var(--nav-bg);
+  background: var(--header-footer-bg);
   position: relative;
   top: 0;
   display: flex;
@@ -91,4 +91,17 @@ nav {
 }
 .cross .line-3 {
   transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/*Footer*/
+
+.footer {
+  text-align: center;
+  background-color: var(--header-footer-bg);
+  color: white;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
