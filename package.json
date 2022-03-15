@@ -1,0 +1,32 @@
+{
+  "name": "wherewasi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^7.0.0",
+    "config": "^3.3.7",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.3",
+    "nodemon": "^2.0.15",
+    "react-router-dom": "^6.2.2"
+  },
+  "scripts": {
+    "client": "cd client && npm start",
+    "backend": "cd server && npm run server",
+    "dev": "concurrently \"npm run client\" \"npm run backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoloNoah/WhereWasI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoloNoah/WhereWasI/issues"
+  },
+  "homepage": "https://github.com/SoloNoah/WhereWasI#readme"
+}
