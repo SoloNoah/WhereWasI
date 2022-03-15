@@ -93,6 +93,76 @@ nav {
   transform: rotate(45deg) translate(-5px, -6px);
 }
 
+.full-page {
+  margin: 0;
+  background: linear-gradient(to right, #373b44, #194c73);
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f2f2f2;
+}
+
+/*    Form component */
+
+.form {
+  display: flex;
+  height: 400px;
+  width: clamp(250px, 400px, 70%);
+  background: #f2f2f2;
+  flex-direction: column;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  /* padding: 30px; */
+  padding: 0px 30px;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.form h1,
+.form h4 {
+  background: linear-gradient(to right, #373b44, #194c73);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.form-header > h1 {
+  margin-bottom: 2px;
+}
+.input {
+  margin-bottom: 1em;
+}
+
+.form-link {
+  text-transform: capitalize;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.form-link:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #373b44, #194c73);
+  transition: width 0.3s;
+}
+
+.form-link:hover::after {
+  width: 100%;
+  transition: width 0.3s;
+}
+#logout {
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
 /*Footer*/
 
 .footer {
