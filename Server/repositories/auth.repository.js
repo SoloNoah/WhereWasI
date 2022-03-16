@@ -21,7 +21,7 @@ class AuthRepository {
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return { errors: { errorMessage: 'Invalid credentials.', status: 401 } };
+        return { errors: { errorMessage: 'User already exists.', status: 401 } };
       }
       user = await new User({ email, password });
       const salt = await bcrypt.genSalt(10);

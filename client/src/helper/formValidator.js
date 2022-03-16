@@ -13,7 +13,6 @@ export default function formValidator(user) {
     errors.password = 'Password should be atleast 6 characters';
   }
 
-  console.log(user.passwordRepeat);
   if (user.passwordRepeat !== undefined) {
     if (isEmpty(passwordRepeat)) {
       errors.passwordRepeat = 'Password is required!';

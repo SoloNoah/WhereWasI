@@ -19,7 +19,7 @@ const login = async (req, res) => {
     if (user.errors) {
       throw user.errors;
     }
-    //TODO move this into the repository 
+    //TODO move this into the repository
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).send({ errorMessage: 'Invalid credentials.' });
@@ -61,13 +61,13 @@ const register = async (req, res) => {
     const user = await authRepository.saveUser(email, password);
     if (user.errors) {
       const { errorMessage, status } = user.errors;
-      return res.status(status).send(errorMessage);
+      return res.status(status).send({errorMessage});
     }
     const token = generateAuthToken(user, handleCallback);
     return res.status(200).send({ status: 200, token });
   } catch (error) {
     const { errorMessage, status } = error;
-    return res.status(status).send(errorMessage);
+    return res.status(status).send({errorMessage});
   }
 };
 

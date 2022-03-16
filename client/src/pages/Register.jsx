@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
 
 import formValidator from '../helper/formValidator';
+import { registerNewUser } from '../services/api';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -45,32 +46,22 @@ const Register = () => {
     const newUser = { email, password, passwordRepeat };
     let errors = formValidator(newUser);
     checkError(errors);
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      // navigate('/login');
-
-      // const body = JSON.stringify(newUser);
-      // const res = await axios.post("/api/users/", body, config);
-      // if (res.status === 200) {
-      //   window.localStorage.setItem("accessToken", res.data.token);
-      //   // history.replace("/login");
-      //   navigate('/login');
-
-      //   return;
-      // }
-    } catch (error) {
-      console.log(error);
-      return;
+    if (!errorsState.email && !errorsState.password && !errorsState.passwordRepeat) {
+      try {
+        let response = await registerNewUser(newUser);
+        if (response.status === 200) {
+          navigate('/login');
+        }
+        return;
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   return (
     <div className='full-page form-page'>
-      <div className='form'>
+      <form className='form'>
         <span className='form-header'>
           <h1>Register</h1>
           <h4>Join and start binging</h4>
@@ -105,7 +96,7 @@ const Register = () => {
         <Link to='/login' style={{ textDecoration: 'none' }}>
           <p className='form-link'>Login</p>
         </Link>
-      </div>
+      </form>
     </div>
   );
 };
