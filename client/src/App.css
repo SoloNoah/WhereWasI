@@ -124,6 +124,10 @@ nav .right-nav {
   align-items: center;
 }
 
+.form-page .MuiSnackbar-root {
+  top: 15%;
+}
+
 /*    Form component */
 
 .form {

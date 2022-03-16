@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 import formValidator from '../helper/formValidator';
 import { loginUser } from '../services/api';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+});
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
@@ -12,6 +17,9 @@ const Login = (props) => {
 
   const [errorsState, setErrorsState] = useState({ email: false, password: false });
   const [errors, setErrors] = useState({});
+
+  const [snackbarOpen, setOpen] = useState(false);
+  const [snackbarMessage, setMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -35,6 +43,15 @@ const Login = (props) => {
     event.preventDefault();
     onClick();
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (window.localStorage.getItem('accessToken')) {
       // props.setLoggedin(true);
@@ -52,13 +69,27 @@ const Login = (props) => {
         }
         return;
       } catch (error) {
-        console.log(error);
+        setMessage(error.errorMessage);
+        setOpen(true);
       }
     }
   };
 
   return (
     <div className='full-page form-page'>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <form className='form'>
         <span className='form-header'>
           <h1>Login</h1>
