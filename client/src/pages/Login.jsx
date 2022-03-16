@@ -1,12 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { FormControl, Input, InputLabel, Button } from '@mui/material';
+import { TextField, Button } from '@mui/material';
+
+import formValidator from '../helper/formValidator';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [errorsState, setErrorsState] = useState({ email: false, password: false });
+  const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
+
+  const checkError = (errors) => {
+    setErrors(errors);
+    let currErrorsState = errorsState;
+    if (errors.email) {
+      currErrorsState.email = true;
+    } else {
+      currErrorsState.email = false;
+    }
+    if (errors.password) {
+      currErrorsState.password = true;
+    } else {
+      currErrorsState.password = false;
+    }
+    setErrorsState(currErrorsState);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,6 +41,8 @@ const Login = (props) => {
   }, []);
   const onClick = async () => {
     const newUser = { email, password };
+    let errors = formValidator(newUser);
+    checkError(errors);
     try {
       const config = {
         headers: {
@@ -26,7 +50,7 @@ const Login = (props) => {
         },
       };
       const body = JSON.stringify(newUser);
-      navigate('/');
+      // navigate('/');
       // const res = await axios.post('/api/auth', body, config);
       // if (res.status === 200) {
       //   props.setLoggedin(true);
@@ -46,17 +70,17 @@ const Login = (props) => {
           <h1>Login</h1>
           <h4>Helping you binge with ease</h4>
         </span>
-
-        <FormControl>
-          <InputLabel htmlFor={'email'}>Email</InputLabel>
-          <Input id={'email'} required={true} className='input' onChange={(e) => setEmail.setTop(e.target.value)} />
-        </FormControl>
-        <FormControl>
-          <InputLabel className='inputLabel' htmlFor={'password'}>
-            Password
-          </InputLabel>
-          <Input id={'password'} required={true} className='input' type='password' onChange={(e) => setPassword.setBottom(e.target.value)} />
-        </FormControl>
+        <TextField error={errorsState.email} id={'email'} className='input' variant='standard' label='Email' helperText={errors.email} onChange={(e) => setEmail(e.target.value)}></TextField>
+        <TextField
+          error={errorsState.password}
+          id={'password'}
+          className='input'
+          type='password'
+          variant='standard'
+          label='Password'
+          helperText={errors.password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></TextField>
         <Button variant='contained' color='primary' type='submit' onClick={handleSubmit} className='submit'>
           Submit
         </Button>

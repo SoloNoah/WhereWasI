@@ -115,7 +115,6 @@ nav .right-nav {
   background: linear-gradient(to right, #373b44, #194c73);
   min-height: 100vh;
   min-width: 100%;
-
   color: #f2f2f2;
 }
 
@@ -129,16 +128,15 @@ nav .right-nav {
 
 .form {
   display: flex;
-  height: 400px;
+  min-height: 400px;
   width: clamp(250px, 400px, 70%);
   background: #f2f2f2;
   flex-direction: column;
-  /* margin: 0 auto; */
   align-items: center;
   justify-content: center;
   padding: 10px 20px;
   border-radius: 5px;
-  /* position: relative; */
+  gap: 15px;
 }
 
 .form h1,
@@ -150,8 +148,18 @@ nav .right-nav {
   text-align: center;
 }
 
+.form .form-control input {
+  padding-left: 13px;
+}
+.form .MuiFormControl-root .MuiFormHelperText-root {
+  position: absolute;
+  font-size: 11px;
+  top: 45px;
+}
+
 .form .MuiFormControl-root {
   width: 100%;
+  position: relative;
 }
 
 .form-header > h1 {
