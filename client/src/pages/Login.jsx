@@ -55,25 +55,6 @@ const Login = (props) => {
         console.log(error);
       }
     }
-
-    // try {
-    //   const config = {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   };
-    //   const body = JSON.stringify(newUser);
-    //   navigate('/');
-    //   const res = await axios.post('/api/auth', body, config);
-    //   if (res.status === 200) {
-    //     props.setLoggedin(true);
-    //     window.localStorage.setItem('accessToken', res.data.token);
-    //     navigate('/');
-    //     return;
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   return (

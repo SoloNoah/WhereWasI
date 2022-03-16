@@ -49,7 +49,7 @@ const Register = () => {
     if (!errorsState.email && !errorsState.password && !errorsState.passwordRepeat) {
       try {
         let response = await registerNewUser(newUser);
-        if (response.status === 200) {
+          if (response.status === 200) {
           navigate('/login');
         }
         return;

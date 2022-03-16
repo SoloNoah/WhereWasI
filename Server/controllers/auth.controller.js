@@ -17,12 +17,13 @@ const login = async (req, res) => {
   try {
     const user = await authRepository.findUser(email);
     if (user.errors) {
-      throw user.errors;
+      const { status } = user.errors;
+      return res.status(status).send(user.errors);
     }
     //TODO move this into the repository
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).send({ errorMessage: 'Invalid credentials.' });
+      return res.status(401).send({ errorMessage: 'Invalid credentials.', status: 401 });
     }
 
     const token = generateAuthToken(user, handleCallback);
@@ -60,14 +61,14 @@ const register = async (req, res) => {
   try {
     const user = await authRepository.saveUser(email, password);
     if (user.errors) {
-      const { errorMessage, status } = user.errors;
-      return res.status(status).send({errorMessage});
+      const { status } = user.errors;
+      return res.status(status).send(user.errors);
     }
     const token = generateAuthToken(user, handleCallback);
     return res.status(200).send({ status: 200, token });
   } catch (error) {
-    const { errorMessage, status } = error;
-    return res.status(status).send({errorMessage});
+    const { status } = error;
+    return res.status(status).send({ error });
   }
 };
 
