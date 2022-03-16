@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import Form from '../components/Form/Form';
+import { Link } from 'react-router-dom';
+import { FormControl, Input, InputLabel, Button } from '@mui/material';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onClick();
+  };
   useEffect(() => {
     if (window.localStorage.getItem('accessToken')) {
       props.setLoggedin(true);
@@ -36,18 +40,30 @@ const Login = (props) => {
   };
 
   return (
-    <div className='full-page'>
-      <Form
-        setTop={setEmail}
-        setBottom={setPassword}
-        onClick={onClick}
-        botType={'password'}
-        inputTop={'Email'}
-        inputBot={'Password'}
-        title={'Login'}
-        subTitle={'Helping you binge with ease'}
-        next={'register'}
-      />
+    <div className='full-page form-page'>
+      <div className='form'>
+        <span className='form-header'>
+          <h1>Login</h1>
+          <h4>Helping you binge with ease</h4>
+        </span>
+
+        <FormControl>
+          <InputLabel htmlFor={'email'}>Email</InputLabel>
+          <Input id={'email'} required={true} className='input' onChange={(e) => setEmail.setTop(e.target.value)} />
+        </FormControl>
+        <FormControl>
+          <InputLabel className='inputLabel' htmlFor={'password'}>
+            Password
+          </InputLabel>
+          <Input id={'password'} required={true} className='input' type='password' onChange={(e) => setPassword.setBottom(e.target.value)} />
+        </FormControl>
+        <Button variant='contained' color='primary' type='submit' onClick={handleSubmit} className='submit'>
+          Submit
+        </Button>
+        <Link to='/register' style={{ textDecoration: 'none' }}>
+          <p className='form-link'>Register</p>
+        </Link>
+      </div>
     </div>
   );
 };

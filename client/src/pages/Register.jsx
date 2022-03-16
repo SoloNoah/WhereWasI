@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import Form from '../components/Form/Form';
+import { Link } from 'react-router-dom';
+import { FormControl, Input, InputLabel, Button } from '@mui/material';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
 
   const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onClick();
+  };
   const onClick = async () => {
     const newUser = { email, password };
     try {
@@ -34,18 +40,36 @@ const Register = () => {
   };
 
   return (
-    <div className='full-page'>
-      <Form
-        setTop={setEmail}
-        setBottom={setPassword}
-        botType={'password'}
-        onClick={onClick}
-        inputTop={'Email'}
-        inputBot={'Password'}
-        title={'Register'}
-        subTitle={'Join and start binging'}
-        next={'login'}
-      />
+    <div className='full-page form-page'>
+      <div className='form'>
+        <span className='form-header'>
+          <h1>Register</h1>
+          <h4>Join and start binging</h4>
+        </span>
+
+        <FormControl>
+          <InputLabel htmlFor={'email'}>Email</InputLabel>
+          <Input id={'email'} required={true} className='input' onChange={(e) => setEmail.setTop(e.target.value)} />
+        </FormControl>
+        <FormControl>
+          <InputLabel className='inputLabel' htmlFor={'password'}>
+            Password
+          </InputLabel>
+          <Input id={'password'} required={true} className='input' type='password' onChange={(e) => setPassword.setBottom(e.target.value)} />
+        </FormControl>
+        <FormControl>
+          <InputLabel className='inputLabel' htmlFor={'password'}>
+            Repeat Password
+          </InputLabel>
+          <Input id={'password-repeat'} required={true} className='input' type='password' onChange={(e) => setPasswordRepeat.setBottom(e.target.value)} />
+        </FormControl>
+        <Button variant='contained' color='primary' type='submit' onClick={handleSubmit} className='submit'>
+          Submit
+        </Button>
+        <Link to='/login' style={{ textDecoration: 'none' }}>
+          <p className='form-link'>Login</p>
+        </Link>
+      </div>
     </div>
   );
 };

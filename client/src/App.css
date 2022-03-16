@@ -19,11 +19,26 @@ nav {
   top: 0;
   display: flex;
   height: 100px;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   z-index: 1;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  font-size: 18px;
+}
+
+nav .ul-holder {
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav .left-nav {
+  margin-left: 40px;
+}
+
+nav .right-nav {
+  margin-right: 40px;
 }
 
 .navbar-holder {
@@ -46,11 +61,13 @@ nav {
   transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 985px) {
+@media screen and (max-width: 1280px) {
   body {
     overflow-x: hidden;
   }
-
+  nav {
+    justify-content: space-around;
+  }
   .navbar-holder {
     position: absolute;
     margin: 0;
@@ -97,11 +114,15 @@ nav {
   margin: 0;
   background: linear-gradient(to right, #373b44, #194c73);
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 100%;
+
+  color: #f2f2f2;
+}
+
+.form-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #f2f2f2;
 }
 
 /*    Form component */
@@ -112,14 +133,12 @@ nav {
   width: clamp(250px, 400px, 70%);
   background: #f2f2f2;
   flex-direction: column;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   align-items: center;
   justify-content: center;
-  /* padding: 30px; */
-  padding: 0px 30px;
+  padding: 10px 20px;
   border-radius: 5px;
-  margin-bottom: 1em;
-  position: relative;
+  /* position: relative; */
 }
 
 .form h1,
@@ -131,11 +150,20 @@ nav {
   text-align: center;
 }
 
+.form .MuiFormControl-root {
+  width: 100%;
+}
+
 .form-header > h1 {
   margin-bottom: 2px;
 }
 .input {
   margin-bottom: 1em;
+}
+
+.form .MuiButton-root {
+  margin-top: 1em;
+  margin-bottom: unset;
 }
 
 .form-link {
