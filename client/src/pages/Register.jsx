@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { TextField, Button, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
+import { connect } from 'react-redux';
 
 import formValidator from '../helper/formValidator';
-import { registerNewUser } from '../services/api';
-
+import { register } from '../store/actions/authAction';
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
 
-const Register = () => {
+const Register = ({ registerSuccess, failErrorMessage, register }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
@@ -63,14 +63,12 @@ const Register = () => {
     let errors = formValidator(newUser);
     checkError(errors);
     if (!errorsState.email && !errorsState.password && !errorsState.passwordRepeat) {
-      try {
-        let response = await registerNewUser(newUser);
-        if (response.status === 200) {
-          navigate('/login');
-        }
-        return;
-      } catch (error) {
-        setMessage(error.errorMessage);
+      await register(newUser);
+      console.log(registerSuccess);
+      if (registerSuccess) {
+        navigate('/login');
+      } else {
+        setMessage(failErrorMessage);
         setOpen(true);
       }
     }
@@ -131,4 +129,16 @@ const Register = () => {
   );
 };
 
-export default Register;
+const mapStateToProps = (state) => {
+  console.log(state.authReducer.registerSuccess);
+  return {
+    registerSuccess: state.authReducer.registerSuccess,
+    failErrorMessage: state.authReducer.failErrorMessage,
+  };
+};
+
+const mapDispatchToProps = {
+  register,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

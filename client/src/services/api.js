@@ -9,17 +9,14 @@ const config = {
 
 export async function registerNewUser(newUser) {
   const body = JSON.stringify(newUser);
-
-  await axios
+  return await axios
     .post(BASE_URL + '/api/auth/register', body, config)
-    .then((res) => {
-      console.log(res);
-      window.localStorage.setItem('accessToken', res.data.token);
-      return { status: 200 };
+    .then((res) => {     
+      let returnVal = { status: 200, token: res.data.token };
+      return returnVal;
     })
     .catch((error) => {
       let response = error.response;
-      console.log(response);
       if (response.status === 401 || response.status === 500) {
         throw response.data;
       }
@@ -30,7 +27,6 @@ export async function loginUser(newUser) {
   const body = JSON.stringify(newUser);
   const res = await axios.post(BASE_URL + '/api/auth/login', body, config).catch((error) => {
     let response = error.response;
-    console.log(response);
     if (response.status === 401 || response.status === 500) {
       throw response.data;
     }
