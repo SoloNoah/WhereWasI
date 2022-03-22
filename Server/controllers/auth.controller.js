@@ -1,11 +1,11 @@
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
+const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
-const AuthRepository = require('../repositories/auth.repository');
-const { generateAuthToken } = require('../utils/token');
+const AuthRepository = require("../repositories/auth.repository");
+const { generateAuthToken } = require("../utils/token");
 
 const authRepository = new AuthRepository();
-const User = require('../models/userModel');
+const User = require("../models/userModel");
 
 const login = async (req, res) => {
   const errors = validationResult(req);
@@ -23,11 +23,13 @@ const login = async (req, res) => {
     //TODO move this into the repository
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).send({ errorMessage: 'Invalid credentials.', status: 401 });
+      return res
+        .status(401)
+        .send({ errorMessage: "Invalid credentials.", status: 401 });
     }
 
     const token = generateAuthToken(user, handleCallback);
-    user.token = token;
+    // user.token = token;
     return res.status(200).send({ status: 200, token, email: user.email });
   } catch (error) {
     const { errorMessage, status } = error;

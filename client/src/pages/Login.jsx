@@ -1,25 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { TextField, Button, Snackbar } from '@mui/material';
-import MuiAlert from '@mui/material/Alert';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { TextField, Button, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 
-import formValidator from '../helper/formValidator';
-import { loginUser } from '../services/api';
+import formValidator from "../helper/formValidator";
+import { connect } from "react-redux";
+import { login, resetLogin } from "../store/actions/loginAction";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Login = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ isAuthenticated, failErrorMessage, login, resetLogin }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [errorsState, setErrorsState] = useState({ email: false, password: false });
+  const [errorsState, setErrorsState] = useState({
+    email: false,
+    password: false,
+  });
   const [errors, setErrors] = useState({});
 
   const [snackbarOpen, setOpen] = useState(false);
-  const [snackbarMessage, setMessage] = useState('');
+  const [snackbarMessage, setMessage] = useState("");
+
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -39,82 +45,129 @@ const Login = (props) => {
     setErrorsState(currErrorsState);
   };
 
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   onClick();
+  // };
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onClick();
+    setSubmitClicked(true);
+  };
+
+  useEffect(() => {
+    if (submitClicked) {
+      const sendRequest = async () => {
+        await submitLogin();
+      };
+      sendRequest();
+      setSubmitClicked(false);
+    }
+  }, [submitClicked]);
+
+  useEffect(() => {
+    setMessage(failErrorMessage);
+  }, [failErrorMessage]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      handlePageStatus();
+    }
+  }, [isAuthenticated]);
+
+  const handlePageStatus = () => {
+    resetLogin();
+    navigate("/");
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
 
-  useEffect(() => {
-    if (window.localStorage.getItem('accessToken')) {
-      // props.setLoggedin(true);
-    }
-  }, []);
-  const onClick = async () => {
+  const displayLoginError = () => {
+    setOpen(true);
+  };
+  const submitLogin = async () => {
     const user = { email, password };
     let errors = formValidator(user);
     checkError(errors);
     if (!errorsState.email && !errorsState.password) {
-      try {
-        let response = await loginUser(user);
-        if (response.status === 200) {
-          navigate('/');
-        }
-        return;
-      } catch (error) {
-        setMessage(error.errorMessage);
-        setOpen(true);
+      const res = await login(user);
+      if (res !== 200) {
+        displayLoginError();
       }
     }
   };
 
   return (
-    <div className='full-page form-page'>
+    <div className="full-page form-page">
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
       >
-        <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
-      <form className='form'>
-        <span className='form-header'>
+      <form className="form">
+        <span className="form-header">
           <h1>Login</h1>
           <h4>Helping you binge with ease</h4>
         </span>
-        <TextField error={errorsState.email} id={'email'} className='input' variant='standard' label='Email' helperText={errors.email} onChange={(e) => setEmail(e.target.value)}></TextField>
+        <TextField
+          error={errorsState.email}
+          id={"email"}
+          className="input"
+          variant="standard"
+          label="Email"
+          helperText={errors.email}
+          onChange={(e) => setEmail(e.target.value)}
+        ></TextField>
         <TextField
           error={errorsState.password}
-          id={'password'}
-          className='input'
-          type='password'
-          variant='standard'
-          label='Password'
+          id={"password"}
+          className="input"
+          type="password"
+          variant="standard"
+          label="Password"
           helperText={errors.password}
           onChange={(e) => setPassword(e.target.value)}
         ></TextField>
-        <Button variant='contained' color='primary' type='submit' onClick={handleSubmit} className='submit'>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={handleSubmit}
+          className="submit"
+        >
           Submit
         </Button>
-        <Link to='/register' style={{ textDecoration: 'none' }}>
-          <p className='form-link'>Register</p>
+        <Link to="/register" style={{ textDecoration: "none" }}>
+          <p className="form-link">Register</p>
         </Link>
       </form>
     </div>
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.loginReducer.isAuthenticated,
+    failErrorMessage: state.loginReducer.failErrorMessage,
+  };
+};
+
+const mapDispatchToProps = {
+  login,
+  resetLogin,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

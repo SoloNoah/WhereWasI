@@ -6,7 +6,6 @@ import {
 
 const initialState = {
   token: localStorage.getItem("accessToken"),
-  isAuthenticated: null,
   registerSuccess: null,
   loading: true,
   failErrorMessage: "",
@@ -26,9 +25,8 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         token: payload,
-        isAuthenticated: true,
         registerSuccess: true,
-        loading: false,
+        loading: true,
         failErrorMessage: "",
       };
     case REGISTER_FAIL:
@@ -36,7 +34,6 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         token: null,
-        isAuthenticated: false,
         registerSuccess: false,
         loading: false,
         failErrorMessage: payload,

@@ -2,7 +2,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   RESET_REGISTER,
-} from "../actions/actionTypes.js";
+} from "./actionTypes.js";
 
 import { registerNewUser } from "../../services/api";
 
@@ -14,12 +14,13 @@ export const register = (newUser) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: response.token,
     });
-    return;
+    return response.status;
   } catch (error) {
     dispatch({
       type: REGISTER_FAIL,
       payload: error.errorMessage,
     });
+    return error.status;
   }
 };
 

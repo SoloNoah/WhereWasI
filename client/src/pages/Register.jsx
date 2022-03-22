@@ -6,7 +6,7 @@ import MuiAlert from "@mui/material/Alert";
 import { connect } from "react-redux";
 
 import formValidator from "../helper/formValidator";
-import { register, resetRegister } from "../store/actions/authAction";
+import { register, resetRegister } from "../store/actions/registerAction";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -32,34 +32,35 @@ const Register = ({
   const [snackbarMessage, setMessage] = useState("");
 
   const [submitClicked, setSubmitClicked] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitClicked(true);
-    // await onClick();
   };
 
   useEffect(() => {
     if (submitClicked) {
-      const handleClick = async () => {
-        await onClick();
+      const sendRequest = async () => {
+        await sendRegisterRequest();
       };
-      handleClick();
+      sendRequest();
+      setSubmitClicked(false);
     }
-    setSubmitClicked(false);
   }, [submitClicked]);
 
   useEffect(() => {
-    if (registerSuccess) {
-      resetRegister();
-      navigate("/login");
-    }
-    if (!registerSuccess && failErrorMessage) {
-      setMessage(failErrorMessage);
-      setOpen(true);
-    }
-  }, [registerSuccess]);
+    setMessage(failErrorMessage);
+  }, [failErrorMessage]);
+
+  const displayRegisterError = () => {
+    setOpen(true);
+  };
+  const handlePageStatus = () => {
+    resetRegister();
+    navigate("/login");
+  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -89,7 +90,7 @@ const Register = ({
     setErrorsState(currErrorsState);
   };
 
-  const onClick = async () => {
+  const sendRegisterRequest = async () => {
     const newUser = { email, password, passwordRepeat };
     let errors = formValidator(newUser);
     checkError(errors);
@@ -98,9 +99,17 @@ const Register = ({
       !errorsState.password &&
       !errorsState.passwordRepeat
     ) {
-      register(newUser);
+      const res = await register(newUser);
+      if (res !== 200) {
+        displayRegisterError();
+      }
     }
   };
+  useEffect(() => {
+    if (registerSuccess) {
+      handlePageStatus();
+    }
+  }, [registerSuccess]);
 
   return (
     <div className="full-page form-page">
@@ -173,8 +182,8 @@ const Register = ({
 
 const mapStateToProps = (state) => {
   return {
-    registerSuccess: state.authReducer.registerSuccess,
-    failErrorMessage: state.authReducer.failErrorMessage,
+    registerSuccess: state.registerReducer.registerSuccess,
+    failErrorMessage: state.registerReducer.failErrorMessage,
   };
 };
 
