@@ -1,6 +1,10 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/actionTypes.js';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  RESET_REGISTER,
+} from "../actions/actionTypes.js";
 
-import { registerNewUser } from '../../services/api';
+import { registerNewUser } from "../../services/api";
 
 //REGISTER
 export const register = (newUser) => async (dispatch) => {
@@ -14,7 +18,11 @@ export const register = (newUser) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: REGISTER_FAIL,
-      payload: error.errorMessage
+      payload: error.errorMessage,
     });
   }
+};
+
+export const resetRegister = () => async (dispatch) => {
+  dispatch({ type: RESET_REGISTER });
 };
