@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, RESET_LOGIN } from "../actions/actionTypes";
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/actionTypes";
 
 const initialState = {
   token: localStorage.getItem("accessToken"),
@@ -11,10 +11,12 @@ export default function loginReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case RESET_LOGIN:
+    case LOGOUT:
+      window.localStorage.removeItem("accessToken");
       return {
         ...state,
         isAuthenticated: null,
+        token: null,
       };
     case LOGIN_SUCCESS:
       return {

@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, RESET_LOGIN } from "./actionTypes.js";
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "./actionTypes.js";
 
 import { loginUser } from "../../services/api";
 
@@ -20,6 +20,7 @@ export const login = (newUser) => async (dispatch) => {
   }
 };
 
-export const resetLogin = () => async (dispatch) => {
-  dispatch({ type: RESET_LOGIN });
+//LOGOUT
+export const logoutUser = () => async (dispatch) => {
+  dispatch({ type: LOGOUT });
 };

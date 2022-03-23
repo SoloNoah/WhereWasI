@@ -6,13 +6,13 @@ import MuiAlert from "@mui/material/Alert";
 
 import formValidator from "../helper/formValidator";
 import { connect } from "react-redux";
-import { login, resetLogin } from "../store/actions/loginAction";
+import { login } from "../store/actions/loginAction";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Login = ({ isAuthenticated, failErrorMessage, login, resetLogin }) => {
+const Login = ({ isAuthenticated, failErrorMessage, login }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -45,10 +45,6 @@ const Login = ({ isAuthenticated, failErrorMessage, login, resetLogin }) => {
     setErrorsState(currErrorsState);
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   onClick();
-  // };
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitClicked(true);
@@ -75,7 +71,6 @@ const Login = ({ isAuthenticated, failErrorMessage, login, resetLogin }) => {
   }, [isAuthenticated]);
 
   const handlePageStatus = () => {
-    resetLogin();
     navigate("/");
   };
 
@@ -167,7 +162,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   login,
-  resetLogin,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
