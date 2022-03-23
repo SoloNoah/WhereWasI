@@ -7,6 +7,9 @@ const initialState = {
   failErrorMessage: "",
 };
 
+if (initialState.token) {
+  initialState.isAuthenticated = true;
+}
 export default function loginReducer(state = initialState, action) {
   const { type, payload } = action;
 

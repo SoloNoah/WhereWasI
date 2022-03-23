@@ -98,7 +98,7 @@ const Login = ({ isAuthenticated, failErrorMessage, login }) => {
   };
 
   return (
-    <div className="full-page form-page">
+    <div className="full-page flex-col flex-center">
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

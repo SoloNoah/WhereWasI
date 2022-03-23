@@ -24,9 +24,8 @@ export const Navbar = ({ isAuthenticated, logoutUser }) => {
 
   const isMobile = width <= 1280;
   const logout = () => {
-    logout();
+    logoutUser();
     setLoggedIn(false);
-    return;
   };
 
   const linkStyle = {
@@ -82,7 +81,7 @@ export const Navbar = ({ isAuthenticated, logoutUser }) => {
         </ul>
       )}
 
-      <Link to="/home" className="btn nav-btn btn-logo" style={linkStyle}>
+      <Link to="/" className="btn nav-btn btn-logo" style={linkStyle}>
         <h1>Where was I?</h1>
       </Link>
 

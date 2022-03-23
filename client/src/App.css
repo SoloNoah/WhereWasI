@@ -6,7 +6,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   overflow-x: hidden;
 
   /*TODO remove later*/
@@ -41,6 +41,12 @@ nav .right-nav {
   margin-right: 40px;
 }
 
+nav .btn-logo {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
 .navbar-holder {
   display: flex;
   justify-content: space-around;
@@ -67,6 +73,10 @@ nav .right-nav {
   }
   nav {
     justify-content: space-around;
+  }
+  nav .btn-logo {
+    position: unset;
+    transform: unset;
   }
   .navbar-holder {
     position: absolute;
@@ -118,8 +128,11 @@ nav .right-nav {
   color: #f2f2f2;
 }
 
-.form-page {
+.flex-col {
   display: flex;
+  flex-direction: column;
+}
+.flex-center {
   justify-content: center;
   align-items: center;
 }
@@ -185,7 +198,7 @@ nav .right-nav {
 }
 
 .form-link:after {
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 2px;
