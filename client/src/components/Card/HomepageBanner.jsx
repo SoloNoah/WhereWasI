@@ -2,21 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import MainButton from "../Buttons/MainButton";
-
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: #fff;
-  font-size: 45px;
-  font-weight: bold;
-`;
-
-const Subtitle = styled.p`
-  font-size: 30px;
-  text-align: center;
-  color: #fff;
-  font-weight: bold;
-`;
+import MainTitle from "../Labels/MainTitle";
+import Subtitle from "../Labels/Subtitle";
 
 const Wrapper = styled.div`
   height: 200px;
@@ -37,11 +24,11 @@ const style = {
   backgroundColor: "white",
   margin: "0 auto",
 };
-const Card = ({ title, subtitle, func }) => {
+const HomepageBanner = ({ title, subtitle, func }) => {
   return (
     <Wrapper>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
+      <MainTitle title={title} />
+      <Subtitle subtitle={subtitle} lg />
       <MainButton
         func={func}
         classValue={"home-btn"}
@@ -52,4 +39,4 @@ const Card = ({ title, subtitle, func }) => {
   );
 };
 
-export default Card;
+export default HomepageBanner;
