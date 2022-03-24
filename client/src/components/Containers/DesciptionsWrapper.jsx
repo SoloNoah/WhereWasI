@@ -13,6 +13,12 @@ const Wrapper = styled.div`
   margin-top: 50px;
   padding: 20px 50px;
   margin-bottom: 50px;
+
+  @media only screen and (max-width: 1280px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+  }
 `;
 const DesciptionsWrapper = () => {
   const calanderText =

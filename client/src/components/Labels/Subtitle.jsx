@@ -6,6 +6,10 @@ const SubTitle = styled.p`
   text-align: center;
   color: #fff;
   font-weight: bold;
+
+  @media only screen and (max-width: 1280px) {
+    font-size: ${(props) => (props.lg ? "17px" : "15px")};
+  }
 `;
 
 const Subtitle = ({ subtitle, lg }) => {

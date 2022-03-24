@@ -6,23 +6,25 @@ import MainTitle from "../Labels/MainTitle";
 import Subtitle from "../Labels/Subtitle";
 
 const Wrapper = styled.div`
-  height: 200px;
-  width: 70%;
-  padding: 30px 20px;
+  min-height: 200px;
+  width: 650px;
+  padding: 30px 0px;
   border-radius: 15px;
   margin: 0 auto;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 1280px) {
+    width: 70%;
+  }
 `;
 
 const style = {
   padding: "18px 36px",
   fontSize: "18px",
-  width: "70%",
-  color: "blue",
+  color: "#093263",
   backgroundColor: "white",
-  margin: "0 auto",
 };
 const HomepageBanner = ({ title, subtitle, func }) => {
   return (

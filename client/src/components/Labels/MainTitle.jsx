@@ -8,6 +8,10 @@ const Title = styled.h1`
   font-size: 45px;
   font-weight: bold;
   margin-bottom: 0;
+
+  @media only screen and (max-width: 1280px) {
+    font-size: 1.4em;
+  }
 `;
 
 const MainTitle = ({ title }) => {
