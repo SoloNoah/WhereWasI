@@ -1,7 +1,7 @@
-const { validationResult } = require('express-validator');
-const url = require('url');
+const { validationResult } = require("express-validator");
+const url = require("url");
 
-const ProfileRepository = require('../repositories/profile.repository');
+const ProfileRepository = require("../repositories/profile.repository");
 
 const profileRepository = new ProfileRepository();
 
@@ -13,12 +13,10 @@ const getProfile = async (req, res) => {
   const user = req.user;
   try {
     const userProfile = await profileRepository.findProfile(user.id);
-    if (userProfile.errors) {
-      throw userProfile.errors;
-    }
     return res.status(200).send({ status: 200, userProfile });
   } catch (error) {
-    const { errorMessage, status } = error.errors;
+    const errorMessage = "Couldn't fetch profile";
+    const status = 500;
     return res.status(status).send(errorMessage);
   }
 };
@@ -77,7 +75,11 @@ const updateEpisodeStatus = async (req, res) => {
   const user = req.user;
   const { mal_id, episodeClicked } = req.body;
   try {
-    const response = await profileRepository.updateEpisodeStatus(mal_id, episodeClicked, user);
+    const response = await profileRepository.updateEpisodeStatus(
+      mal_id,
+      episodeClicked,
+      user
+    );
     if (response.errors) {
       throw response.errors;
     }
@@ -100,7 +102,7 @@ const getEpisodes = async (req, res) => {
   let mal_id = req.query.id;
   try {
     let response = await profileRepository.getEpisodes(mal_id, user);
-    console.log('Printing response');
+    console.log("Printing response");
     console.log(response);
     const { status, episodes } = response.success;
     return res.status(status).send(episodes);
@@ -110,4 +112,10 @@ const getEpisodes = async (req, res) => {
   }
 };
 
-module.exports = { getProfile, addSeries, removeSeries, updateEpisodeStatus, getEpisodes };
+module.exports = {
+  getProfile,
+  addSeries,
+  removeSeries,
+  updateEpisodeStatus,
+  getEpisodes,
+};

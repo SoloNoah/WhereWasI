@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "./actionTypes.js";
 
-import { loginUser } from "../../services/api";
+import { loginUser } from "../../services/auth";
 
 //LOGIN
 export const login = (newUser) => async (dispatch) => {

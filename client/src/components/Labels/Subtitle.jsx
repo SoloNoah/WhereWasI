@@ -13,7 +13,6 @@ const SubTitle = styled.p`
 `;
 
 const Subtitle = ({ subtitle, lg }) => {
-  console.log(lg);
   if (lg) {
     return <SubTitle lg>{subtitle}</SubTitle>;
   }

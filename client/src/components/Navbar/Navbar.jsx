@@ -60,14 +60,19 @@ export const Navbar = ({ isAuthenticated, logoutUser }) => {
             About
           </Link>
           {loggedIn ? (
-            <Link
-              to="/"
-              onClick={logout}
-              className="btn nav-btn"
-              style={linkStyle}
-            >
-              Logout
-            </Link>
+            <>
+              <Link to="/profile" className="btn nav-btn" style={linkStyle}>
+                Profile
+              </Link>
+              <Link
+                to="/"
+                onClick={logout}
+                className="btn nav-btn"
+                style={linkStyle}
+              >
+                Logout
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login" className="btn nav-btn" style={linkStyle}>
@@ -88,14 +93,19 @@ export const Navbar = ({ isAuthenticated, logoutUser }) => {
       {!isMobile && (
         <ul className="ul-holder right-nav">
           {loggedIn ? (
-            <Link
-              to="/"
-              onClick={logout}
-              className="btn nav-btn"
-              style={linkStyle}
-            >
-              Logout
-            </Link>
+            <>
+              <Link to="/profile" className="btn nav-btn" style={linkStyle}>
+                Profile
+              </Link>
+              <Link
+                to="/"
+                onClick={logout}
+                className="btn nav-btn"
+                style={linkStyle}
+              >
+                Logout
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login" className="btn nav-btn" style={linkStyle}>

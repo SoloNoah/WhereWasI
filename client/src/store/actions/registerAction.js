@@ -4,7 +4,7 @@ import {
   RESET_REGISTER,
 } from "./actionTypes.js";
 
-import { registerNewUser } from "../../services/api";
+import { registerNewUser } from "../../services/auth";
 
 //REGISTER
 export const register = (newUser) => async (dispatch) => {
