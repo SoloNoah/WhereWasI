@@ -46,6 +46,9 @@ const addSeries = async (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
   const user = req.user;
+  /**
+   * TODO: should add title of the series as well
+   */
   const { mal_id, episodes } = req.body;
   let episodesArray = profileRepository.generateEpisodes(mal_id, episodes);
   let seriesToAdd = { mal_id, episodes: episodesArray };

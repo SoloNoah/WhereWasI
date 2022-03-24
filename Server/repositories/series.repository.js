@@ -13,17 +13,9 @@ class SeriesRepository {
     };
   }
 
-  //   sendRequestById(id) {
-  //     console.log(id);
-  //     let path = this.jikanURL + "anime/" + id + "/episodes";
-  //     let headers = this.headers;
-  //     let options = {
-  //       method: "GET",
-  //       url: path,
-  //       headers,
-  //     };
-  //     return axios.request(options);
-  //   }
+  /**
+   * TODO: Once i finish adding the front end side "search" feature i should implement pulling episode status watched/unwatched into here and send it back in 1 get request for profile + add the title to the object sent to backend + schema
+   */
   async getSeries(idArray) {
     let tasks = [];
     let jikanHeaderHost = config.get("jikanHeaderHost");

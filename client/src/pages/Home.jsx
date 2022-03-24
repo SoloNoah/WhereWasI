@@ -25,6 +25,12 @@ const Home = ({ isAuthenticated }) => {
           <DesciptionsWrapper />
         </>
       )}
+      {/*
+        TODO: create search component + send request to api and get results
+        create results component.
+        add show to profile (look at profile repository in backend to see the TODO i've written there.)
+      
+      */}
       {isAuthenticated && true}
     </FullPage>
   );
