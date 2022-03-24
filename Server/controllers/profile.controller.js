@@ -14,19 +14,25 @@ const getProfile = async (req, res) => {
   const user = req.user;
   try {
     const userProfile = await profileRepository.findProfile(user.id);
+    const idArray = userProfile.series.map((show) => show.mal_id);
+    const userData = {
+      user: userProfile.user,
+      series: [],
+    };
     let seriesResults = await seriesRepository
-      .getSeries(userProfile.series)
+      .getSeries(idArray)
       .then((results) => {
         return results;
       });
-    const userData = {
-      user: userProfile.user,
-      series: seriesResults,
-    };
-    console.log(userData);
-    // await seriesRepository.getSeries(userProfile.series);
+    for (let i = 0; i < seriesResults.length; i++) {
+      let obj = {
+        mal_id: idArray[i],
+        episodes: seriesResults[i],
+      };
+      userData.series.push(obj);
+    }
 
-    return res.status(200).send({ status: 200, userProfile });
+    return res.status(200).send({ status: 200, userProfile: userData });
   } catch (error) {
     const errorMessage = "Couldn't fetch profile";
     const status = 500;

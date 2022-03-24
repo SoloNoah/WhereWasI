@@ -13,20 +13,18 @@ class SeriesRepository {
     };
   }
 
-  sendRequestById(id) {
-    console.log(id);
-    let path = this.jikanURL + "anime/" + id + "/episodes";
-    let headers = this.headers;
-    let options = {
-      method: "GET",
-      url: path,
-      headers,
-    };
-    return axios.request(options);
-  }
-  async getSeries(series) {
-    const idArray = series.map((show) => show.mal_id);
-    let promiseArray = [];
+  //   sendRequestById(id) {
+  //     console.log(id);
+  //     let path = this.jikanURL + "anime/" + id + "/episodes";
+  //     let headers = this.headers;
+  //     let options = {
+  //       method: "GET",
+  //       url: path,
+  //       headers,
+  //     };
+  //     return axios.request(options);
+  //   }
+  async getSeries(idArray) {
     let tasks = [];
     let jikanHeaderHost = config.get("jikanHeaderHost");
     let jikanApiKey = config.get("jikanApiKey");
@@ -35,7 +33,6 @@ class SeriesRepository {
       "X-RapidAPI-Host": jikanHeaderHost,
       "X-RapidAPI-Key": jikanApiKey,
     };
-    console.log(idArray);
 
     for (let i = 0; i < idArray.length; i++) {
       const delay = 500 * i;
@@ -55,7 +52,6 @@ class SeriesRepository {
 
       tasks.push(promise);
     }
-
     return Promise.all(tasks).then((results) => {
       let episodeList = [];
       results.forEach((subResult) => {
@@ -63,26 +59,6 @@ class SeriesRepository {
       });
       return episodeList;
     });
-    // try {
-    //   for (let i = 0; i <= idArray.length - 1; i++) {
-    //     let promise = this.sendRequestById(idArray[i]);
-    //     promiseArray.push(promise);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    // var callback = () =>
-    //   Promise.all(promiseArray).then(function (values) {
-    //     let results = [];
-    //     values.forEach((value) => {
-    //       results.push(value.data.episodes);
-    //     });
-    //     console.log(results.length);
-    //   });
-
-    // setTimeout(callback, 3000);
-    // return results;
   }
 }
 
