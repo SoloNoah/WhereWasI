@@ -14,7 +14,17 @@ const getProfile = async (req, res) => {
   const user = req.user;
   try {
     const userProfile = await profileRepository.findProfile(user.id);
-    await seriesRepository.getSeries(userProfile.series);
+    let seriesResults = await seriesRepository
+      .getSeries(userProfile.series)
+      .then((results) => {
+        return results;
+      });
+    const userData = {
+      user: userProfile.user,
+      series: seriesResults,
+    };
+    console.log(userData);
+    // await seriesRepository.getSeries(userProfile.series);
 
     return res.status(200).send({ status: 200, userProfile });
   } catch (error) {

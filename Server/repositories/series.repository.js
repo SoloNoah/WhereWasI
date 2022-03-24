@@ -35,24 +35,33 @@ class SeriesRepository {
       "X-RapidAPI-Host": jikanHeaderHost,
       "X-RapidAPI-Key": jikanApiKey,
     };
+    console.log(idArray);
 
     for (let i = 0; i < idArray.length; i++) {
       const delay = 500 * i;
       let path = jikanURL + "anime/" + idArray[i] + "/episodes";
-      optionsRequest["url"] = path;
-      let promise = new Promise(async function (resolve, optionsRequest) {
-        console.log(optionsRequest);
+      let optionsRequest = {
+        method: "GET",
+        url: path,
+        headers,
+      };
+      let promise = new Promise(async function (resolve) {
         await new Promise((res) => setTimeout(res, delay));
-        // let result = await axios.request(options);
 
-        resolve(true);
+        let result = axios.request(optionsRequest);
+
+        resolve(result);
       });
 
       tasks.push(promise);
     }
 
-    let results = Promise.all(tasks).then((results) => {
-      console.log("results: " + results);
+    return Promise.all(tasks).then((results) => {
+      let episodeList = [];
+      results.forEach((subResult) => {
+        episodeList.push(subResult.data.episodes);
+      });
+      return episodeList;
     });
     // try {
     //   for (let i = 0; i <= idArray.length - 1; i++) {
