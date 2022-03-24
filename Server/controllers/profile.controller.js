@@ -1,9 +1,10 @@
 const { validationResult } = require("express-validator");
-const url = require("url");
 
 const ProfileRepository = require("../repositories/profile.repository");
+const SeriesRepository = require("../repositories/series.repository");
 
 const profileRepository = new ProfileRepository();
+const seriesRepository = new SeriesRepository();
 
 const getProfile = async (req, res) => {
   const errors = validationResult(req);
@@ -13,6 +14,8 @@ const getProfile = async (req, res) => {
   const user = req.user;
   try {
     const userProfile = await profileRepository.findProfile(user.id);
+    await seriesRepository.getSeries(userProfile.series);
+
     return res.status(200).send({ status: 200, userProfile });
   } catch (error) {
     const errorMessage = "Couldn't fetch profile";

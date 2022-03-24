@@ -8,6 +8,7 @@ export const getProfile = () => async (dispatch) => {
       type: GET_PROFILE,
       payload: response.userProfile,
     });
+    console.log(response.userProfile);
     return response.userProfile;
   } catch (error) {
     dispatch({
