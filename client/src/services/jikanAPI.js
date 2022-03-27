@@ -43,7 +43,8 @@ export async function getTop() {
     headers,
   };
   const res = await axios.request(optionsRequest);
-  const data = await res.data;
+  const data = await res.data.top;
+  console.log(data);
   return data;
 }
 
@@ -56,7 +57,5 @@ export async function getSeasonAnime() {
     headers,
   };
   const res = await axios.request(optionsRequest);
-  console.log(res.data.anime);
-
-  //   return data;
+  return res.data.anime;
 }

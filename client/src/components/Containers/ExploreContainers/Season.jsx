@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { connect } from "react-redux";
 
 import CardsContainer from "../CardsContainer";
-import { getSeasonAnime } from "../../../services/jikanAPI";
+import { getSeasonalAnime } from "../../../store/actions/exploreAction";
 
-const Season = () => {
-  const [items, setItems] = useOutletContext();
-  const [shows, setShows] = useState([]);
+const Season = ({ seasonList, getSeasonalAnime }) => {
   useEffect(() => {
-    const shows = getSeasonAnime();
+    getSeasonalAnime();
   }, []);
+
   return (
     <>
       <div>Season</div>
@@ -18,4 +17,13 @@ const Season = () => {
   );
 };
 
-export default Season;
+const mapStateToProps = (state) => {
+  return {
+    seasonList: state.exploreReducer.seasonList,
+  };
+};
+
+const mapDispatchToProps = {
+  getSeasonalAnime,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Season);

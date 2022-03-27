@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import CardsContainer from "../CardsContainer";
-import { getToday } from "../../../services/jikanAPI";
+import { getTodaySchedule } from "../../../store/actions/exploreAction";
 
-const Today = () => {
-  const [items, setItems] = useOutletContext();
-  const [shows, setShows] = useState([]);
-
+const Today = ({ todayList, getTodaySchedule }) => {
   useEffect(() => {
-    const shows = getToday();
-    setShows(shows);
+    getTodaySchedule();
   }, []);
+
   return (
     <>
       <div>Today</div>
@@ -20,4 +16,13 @@ const Today = () => {
   );
 };
 
-export default Today;
+const mapStateToProps = (state) => {
+  return {
+    todayList: state.exploreReducer.todayList,
+  };
+};
+
+const mapDispatchToProps = {
+  getTodaySchedule,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Today);

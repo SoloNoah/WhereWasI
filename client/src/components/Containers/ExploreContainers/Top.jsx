@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 
 import CardsContainer from "../CardsContainer";
-import { getTop } from "../../../services/jikanAPI";
+import { getTopRated } from "../../../store/actions/exploreAction";
 
-const Top = () => {
-  const [items, setItems] = useOutletContext();
-  const [shows, setShows] = useState([]);
-
+const Top = ({ topList, getTopRated }) => {
   useEffect(() => {
-    const shows = getTop();
-    setShows(shows);
+    if (!topList) {
+      getTopRated();
+    }
   }, []);
   return (
     <>
@@ -20,4 +18,13 @@ const Top = () => {
   );
 };
 
-export default Top;
+const mapStateToProps = (state) => {
+  return {
+    todayList: state.exploreReducer.todayList,
+  };
+};
+
+const mapDispatchToProps = {
+  getTopRated,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Top);
