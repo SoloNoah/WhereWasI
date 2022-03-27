@@ -1,7 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/actionTypes";
-
+import { getCookie, eraseCookie } from "../../helper/cookies";
 const initialState = {
-  token: localStorage.getItem("accessToken"),
+  token: getCookie("accessToken"),
   isAuthenticated: null,
   loading: true,
   failErrorMessage: "",
@@ -15,7 +15,8 @@ export default function loginReducer(state = initialState, action) {
 
   switch (type) {
     case LOGOUT:
-      window.localStorage.removeItem("accessToken");
+      // window.localStorage.removeItem("accessToken");
+      eraseCookie("accessToken");
       return {
         ...state,
         isAuthenticated: null,
@@ -25,6 +26,7 @@ export default function loginReducer(state = initialState, action) {
       return {
         ...state,
         token: payload,
+        loading: false,
         isAuthenticated: true,
       };
     case LOGIN_FAIL:

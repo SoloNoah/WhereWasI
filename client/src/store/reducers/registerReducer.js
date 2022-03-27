@@ -3,9 +3,10 @@ import {
   REGISTER_FAIL,
   RESET_REGISTER,
 } from "../actions/actionTypes.js";
+import { getCookie, setCookie, eraseCookie } from "../../helper/cookies";
 
 const initialState = {
-  token: localStorage.getItem("accessToken"),
+  token: getCookie("accessToken"),
   registerSuccess: null,
   loading: true,
   failErrorMessage: "",
@@ -21,16 +22,16 @@ export default function authReducer(state = initialState, action) {
         registerSuccess: null,
       };
     case REGISTER_SUCCESS:
-      localStorage.setItem("accessToken", payload);
+      setCookie("accessToken", payload);
       return {
         ...state,
         token: payload,
         registerSuccess: true,
-        loading: true,
+        loading: false,
         failErrorMessage: "",
       };
     case REGISTER_FAIL:
-      localStorage.removeItem("accessToken");
+      eraseCookie("accessToken");
       return {
         ...state,
         token: null,

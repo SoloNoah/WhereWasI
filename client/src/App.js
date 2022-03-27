@@ -7,6 +7,7 @@ import { Home, Login, Register, Profile, About, ErrorPage } from "./pages";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import PrivateRoute from "./components/Routing/PrivateRoute";
 
 import store from "./store";
 
@@ -20,7 +21,15 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
+
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

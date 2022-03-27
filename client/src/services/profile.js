@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { getCookie } from "../helper/cookies";
 const BASE_URL = "http://localhost:5000";
 const config = {
   headers: {
@@ -8,7 +8,8 @@ const config = {
 };
 
 export async function getUserProfile() {
-  const token = localStorage.getItem("accessToken");
+  const token = getCookie("accessToken");
+  // const token = localStorage.getItem("accessToken");
   config["headers"]["x-auth-token"] = token;
   try {
     const res = await axios.get(BASE_URL + "/api/profile/get-profile", config);
