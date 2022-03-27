@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { getProfile } from "../store/actions/profileAction";
 
+import FullPage from "../components/FullPage/FullPage";
+
 const Profile = ({ getProfile, userProfile }) => {
   const [series, setSeries] = useState([]);
   useEffect(() => {
@@ -16,7 +18,7 @@ const Profile = ({ getProfile, userProfile }) => {
     }
   }, [userProfile]);
 
-  return <div>Profile</div>;
+  return <FullPage />;
 };
 
 const mapStateToProps = (state) => {

@@ -40,7 +40,9 @@ export const Navbar = ({ isAuthenticated, logoutUser }) => {
           <Link to="/" className="btn nav-btn" style={linkStyle}>
             Home
           </Link>
-
+          <Link to="/explore" className="btn nav-btn" style={linkStyle}>
+            Explore
+          </Link>
           <Link to="/about" className="btn nav-btn" style={linkStyle}>
             About
           </Link>
@@ -50,12 +52,14 @@ export const Navbar = ({ isAuthenticated, logoutUser }) => {
       {isMobile && (
         <ul
           className={slide ? "navbar-holder active" : "navbar-holder"}
-          slide={slide}
+          // slide={slide}
         >
           <Link to="/" className="btn nav-btn" style={linkStyle}>
             Home
           </Link>
-
+          <Link to="/explore" className="btn nav-btn" style={linkStyle}>
+            Explore
+          </Link>
           <Link to="/about" className="btn nav-btn" style={linkStyle}>
             About
           </Link>

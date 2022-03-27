@@ -3,8 +3,17 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import { Home, Login, Register, Profile, About, ErrorPage } from "./pages";
+import {
+  Home,
+  Login,
+  Register,
+  Profile,
+  About,
+  Explore,
+  ErrorPage,
+} from "./pages";
 
+import { Today, Top, Season } from "./components/Containers/ExploreContainers";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import PrivateRoute from "./components/Routing/PrivateRoute";
@@ -21,7 +30,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
-
           <Route
             path="/profile"
             element={
@@ -30,6 +38,12 @@ const App = () => {
               </PrivateRoute>
             }
           />
+          <Route path="/explore" element={<Explore />}>
+            <Route path="top" element={<Top />} />
+            <Route path="today" element={<Today />} />
+            <Route path="season" element={<Season />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

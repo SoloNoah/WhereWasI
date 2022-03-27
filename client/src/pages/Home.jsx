@@ -10,7 +10,6 @@ const Home = ({ isAuthenticated }) => {
   const navigate = useNavigate();
 
   const transferToLogin = () => {
-    console.log("navigate to login");
     navigate("/login");
   };
   return (
@@ -25,13 +24,7 @@ const Home = ({ isAuthenticated }) => {
           <DesciptionsWrapper />
         </>
       )}
-      {/*
-        TODO: create search component + send request to api and get results
-        create results component.
-        add show to profile (look at profile repository in backend to see the TODO i've written there.)
-      
-      */}
-      {isAuthenticated && true}
+      {isAuthenticated}
     </FullPage>
   );
 };

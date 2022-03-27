@@ -4,5 +4,6 @@ import Register from "./Register";
 import ErrorPage from "./ErrorPage";
 import Profile from "./Profile";
 import About from "./About";
+import Explore from "./Explore";
 
-export { Home, Login, Register, Profile, ErrorPage, About };
+export { Home, Login, Register, Profile, ErrorPage, About, Explore };
