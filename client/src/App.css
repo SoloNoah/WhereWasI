@@ -27,9 +27,9 @@ nav {
   font-size: 18px;
 }
 
-.subnav {
+/* .subnav {
   z-index: 0;
-}
+} */
 nav .ul-holder {
   padding: 0;
   display: flex;
