@@ -12,7 +12,7 @@ const Season = ({ seasonList, getSeasonalAnime }) => {
   return (
     <>
       <div>Season</div>
-      <CardsContainer />
+      {seasonList && <CardsContainer list={seasonList} />}
     </>
   );
 };

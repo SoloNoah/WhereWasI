@@ -6,21 +6,19 @@ import { getTopRated } from "../../../store/actions/exploreAction";
 
 const Top = ({ topList, getTopRated }) => {
   useEffect(() => {
-    if (!topList) {
-      getTopRated();
-    }
+    getTopRated();
   }, []);
   return (
     <>
       <div>Top</div>
-      <CardsContainer />
+      {topList && <CardsContainer list={topList} />}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    todayList: state.exploreReducer.todayList,
+    topList: state.exploreReducer.topList,
   };
 };
 

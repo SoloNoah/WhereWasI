@@ -44,7 +44,6 @@ export async function getTop() {
   };
   const res = await axios.request(optionsRequest);
   const data = await res.data.top;
-  console.log(data);
   return data;
 }
 

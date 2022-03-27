@@ -29,7 +29,6 @@ export const getSeasonalAnime = () => async (dispatch) => {
 
 export const getTopRated = () => async (dispatch) => {
   try {
-    console.log("getting top");
     let response = await getTop();
     dispatch({
       type: GET_TOP,

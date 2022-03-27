@@ -11,7 +11,7 @@ const Today = ({ todayList, getTodaySchedule }) => {
   return (
     <>
       <div>Today</div>
-      <CardsContainer />
+      {todayList && <CardsContainer list={todayList} />}
     </>
   );
 };
