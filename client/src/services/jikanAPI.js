@@ -1,5 +1,6 @@
 import axios from "axios";
-
+//TODO CAN MAKE THIS MORE GENERIC,
+//RIGHT NOW  ITS VERY SPECIFIC AND CAN BE DONE MUCH BETTER + REPEATING LOTS OF ROWS.
 const days = {
   0: "sunday",
   1: "monday",
