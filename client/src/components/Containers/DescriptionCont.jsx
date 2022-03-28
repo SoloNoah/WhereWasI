@@ -1,8 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Subtitle from "../Labels/Subtitle";
-import ImageContainer from "./ImageContainer";
+import Subtitle from '../Labels/Subtitle';
+import ImageContainer from './ImageContainer';
+import MainTitle from '../Labels/MainTitle';
 
 const DescriptionWrapper = styled.div`
   display: flex;
@@ -16,11 +17,12 @@ const DescriptionWrapper = styled.div`
   }
 `;
 
-const DescriptionCont = ({ img, text }) => {
+const DescriptionCont = ({ img, text, title }) => {
   return (
     <DescriptionWrapper>
       <ImageContainer src={img} />
-      <Subtitle subtitle={text} />
+      {title && <MainTitle title={title} />}
+      {text && <Subtitle subtitle={text} />}
     </DescriptionWrapper>
   );
 };

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import SubNav from "../components/Navbar/SubNav";
-import FullPage from "../components/FullPage/FullPage";
-import { Link, Outlet } from "react-router-dom";
+import SubNav from '../components/Navbar/SubNav';
+import FullPage from '../components/FullPage/FullPage';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const Explore = () => {
-  const [items, setItems] = useState([1, 2, 3]);
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate('top');
+  }, []);
   return (
     <FullPage>
       <SubNav />
-      <Outlet context={[items, setItems]} />
+      <Outlet />
     </FullPage>
   );
 };

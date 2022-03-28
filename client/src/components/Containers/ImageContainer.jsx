@@ -1,11 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const ImageWrapper = styled.img`
-  width: 100px;
-  height: 100px;
+  width: ${(props) => (props.lg ? '150px' : '100px')};
+  height: ${(props) => (props.lg ? '150px' : '100px')};
 `;
-const ImageContainer = ({ src }) => {
+const ImageContainer = ({ src, lg }) => {
+  if (lg) {
+    return <ImageWrapper lg src={src} />;
+  }
   return <ImageWrapper src={src} />;
 };
 

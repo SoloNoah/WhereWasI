@@ -1,60 +1,57 @@
-import axios from "axios";
+import axios from 'axios';
 //TODO CAN MAKE THIS MORE GENERIC,
 //RIGHT NOW  ITS VERY SPECIFIC AND CAN BE DONE MUCH BETTER + REPEATING LOTS OF ROWS.
 const days = {
-  0: "sunday",
-  1: "monday",
-  2: "tuesday",
-  3: "wednesday",
-  4: "thursday",
-  5: "friday",
-  6: "saturday",
+  0: 'sunday',
+  1: 'monday',
+  2: 'tuesday',
+  3: 'wednesday',
+  4: 'thursday',
+  5: 'friday',
+  6: 'saturday',
 };
-const seasons = ["winter", "spring", "summer", "autumn"];
+const seasons = ['winter', 'spring', 'summer', 'autumn'];
 const getSeason = (d) => Math.floor((d.getMonth() / 12) * 4) % 4;
 
 const jikanURL = process.env.REACT_APP_jikanURL;
 const jikanApiKey = process.env.REACT_APP_jikanApiKey;
 const jikanHeaderHost = process.env.REACT_APP_jikanHeaderHost;
 const headers = {
-  "X-RapidAPI-Host": jikanHeaderHost,
-  "X-RapidAPI-Key": jikanApiKey,
+  'X-RapidAPI-Host': jikanHeaderHost,
+  'X-RapidAPI-Key': jikanApiKey,
 };
 
 export async function getToday() {
   const dayNum = new Date().getDay();
   const day = days[dayNum];
-  const path = jikanURL + "schedule/" + day;
+  const path = jikanURL + 'schedules/' + day;
   let optionsRequest = {
-    method: "GET",
+    method: 'GET',
     url: path,
-    headers,
   };
   const res = await axios.request(optionsRequest);
-  const data = await res.data[day];
-  return data;
+  const data = res.data.data;
+  return data.slice(0, 9);
 }
 
 export async function getTop() {
-  const path = jikanURL + "top/anime/1/upcoming";
+  const path = jikanURL + 'top/anime';
   let optionsRequest = {
-    method: "GET",
+    method: 'GET',
     url: path,
-    headers,
   };
   const res = await axios.request(optionsRequest);
-  const data = await res.data.top;
-  return data;
+  const data = await res.data.data;
+  return data.slice(0, 9);
 }
 
 export async function getSeasonAnime() {
-  const currSeason = getSeason(new Date());
-  const path = jikanURL + "season/2022/" + seasons[currSeason];
+  const path = jikanURL + 'seasons/now';
   let optionsRequest = {
-    method: "GET",
+    method: 'GET',
     url: path,
-    headers,
   };
   const res = await axios.request(optionsRequest);
-  return res.data.anime;
+  const data = await res.data.data;
+  return data.slice(0, 9);
 }

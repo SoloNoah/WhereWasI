@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
-import CardsContainer from "../CardsContainer";
-import { getSeasonalAnime } from "../../../store/actions/exploreAction";
+import CardsContainer from '../CardsContainer';
+import { getSeasonalAnime } from '../../../store/actions/exploreAction';
 
 const Season = ({ seasonList, getSeasonalAnime }) => {
   useEffect(() => {
     getSeasonalAnime();
   }, []);
 
-  return (
-    <>
-      <div>Season</div>
-      {seasonList && <CardsContainer list={seasonList} />}
-    </>
-  );
+  return <>{seasonList && <CardsContainer list={seasonList} />}</>;
 };
 
 const mapStateToProps = (state) => {

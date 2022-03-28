@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { TextField, Button, Snackbar } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { TextField, Button, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+import { connect } from 'react-redux';
 
-import formValidator from "../helper/formValidator";
-import { register, resetRegister } from "../store/actions/registerAction";
+import formValidator from '../helper/formValidator';
+import { register, resetRegister } from '../store/actions/registerAction';
 const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
 
-const Register = ({
-  registerSuccess,
-  failErrorMessage,
-  register,
-  resetRegister,
-}) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
+const Register = ({ registerSuccess, failErrorMessage, register, resetRegister }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
 
   const [errorsState, setErrorsState] = useState({
     email: false,
@@ -29,7 +23,7 @@ const Register = ({
   const [errors, setErrors] = useState({});
 
   const [snackbarOpen, setOpen] = useState(false);
-  const [snackbarMessage, setMessage] = useState("");
+  const [snackbarMessage, setMessage] = useState('');
 
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -59,11 +53,11 @@ const Register = ({
   };
   const handlePageStatus = () => {
     resetRegister();
-    navigate("/login");
+    navigate('/login');
   };
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
@@ -94,11 +88,7 @@ const Register = ({
     const newUser = { email, password, passwordRepeat };
     let errors = formValidator(newUser);
     checkError(errors);
-    if (
-      !errorsState.email &&
-      !errorsState.password &&
-      !errorsState.passwordRepeat
-    ) {
+    if (!errorsState.email && !errorsState.password && !errorsState.passwordRepeat) {
       const res = await register(newUser);
       if (res !== 200) {
         displayRegisterError();
@@ -112,68 +102,54 @@ const Register = ({
   }, [registerSuccess]);
 
   return (
-    <div className="full-page flex-col flex-center">
+    <div className='full-page flex-col flex-center'>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
-      <form className="form">
-        <span className="form-header">
+      <form className='form'>
+        <span className='form-header'>
           <h1>Register</h1>
           <h4>Join and start binging</h4>
         </span>
 
-        <TextField
-          error={errorsState.email}
-          id={"email"}
-          className="input"
-          variant="standard"
-          label="Email"
-          helperText={errors.email}
-          onChange={(e) => setEmail(e.target.value)}
-        ></TextField>
+        <TextField error={errorsState.email} id={'email'} className='input' variant='standard' label='Email' helperText={errors.email} onChange={(e) => setEmail(e.target.value)}></TextField>
         <TextField
           error={errorsState.password}
-          id={"password"}
-          className="input"
-          type="password"
-          variant="standard"
-          label="Password"
+          id={'password'}
+          className='input'
+          type='password'
+          variant='standard'
+          label='Password'
           helperText={errors.password}
           onChange={(e) => setPassword(e.target.value)}
         ></TextField>
 
         <TextField
           error={errorsState.passwordRepeat}
-          id={"password-repeat"}
-          className="input"
-          type="password"
-          variant="standard"
-          label="Repeat Password"
+          id={'password-repeat'}
+          className='input'
+          type='password'
+          variant='standard'
+          label='Repeat Password'
           helperText={errors.passwordRepeat}
           onChange={(e) => setPasswordRepeat(e.target.value)}
         ></TextField>
 
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          onClick={handleSubmit}
-          className="submit"
-        >
+        <Button variant='contained' color='primary' type='submit' onClick={handleSubmit} className='submit'>
           Submit
         </Button>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <p className="form-link">Login</p>
+        <Link to='/login' style={{ textDecoration: 'none' }}>
+          <p className='form-link'>Login</p>
         </Link>
       </form>
     </div>
