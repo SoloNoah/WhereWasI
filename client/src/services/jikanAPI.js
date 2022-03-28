@@ -10,16 +10,8 @@ const days = {
   5: 'friday',
   6: 'saturday',
 };
-const seasons = ['winter', 'spring', 'summer', 'autumn'];
-const getSeason = (d) => Math.floor((d.getMonth() / 12) * 4) % 4;
 
 const jikanURL = process.env.REACT_APP_jikanURL;
-const jikanApiKey = process.env.REACT_APP_jikanApiKey;
-const jikanHeaderHost = process.env.REACT_APP_jikanHeaderHost;
-const headers = {
-  'X-RapidAPI-Host': jikanHeaderHost,
-  'X-RapidAPI-Key': jikanApiKey,
-};
 
 export async function getToday() {
   const dayNum = new Date().getDay();
@@ -31,7 +23,7 @@ export async function getToday() {
   };
   const res = await axios.request(optionsRequest);
   const data = res.data.data;
-  return data.slice(0, 9);
+  return data;
 }
 
 export async function getTop() {
@@ -41,8 +33,8 @@ export async function getTop() {
     url: path,
   };
   const res = await axios.request(optionsRequest);
-  const data = await res.data.data;
-  return data.slice(0, 9);
+  const data = res.data.data;
+  return data;
 }
 
 export async function getSeasonAnime() {
@@ -52,6 +44,6 @@ export async function getSeasonAnime() {
     url: path,
   };
   const res = await axios.request(optionsRequest);
-  const data = await res.data.data;
-  return data.slice(0, 9);
+  const data = res.data.data;
+  return data;
 }
