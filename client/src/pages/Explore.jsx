@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import SubNav from '../components/Navbar/SubNav';
 import FullPage from '../components/FullPage/FullPage';
-import { Outlet, useNavigate } from 'react-router-dom';
+
+import SearchWrapper from '../components/Search/SearchWrapper';
 
 const Explore = () => {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ const Explore = () => {
   return (
     <FullPage>
       <SubNav />
+      <SearchWrapper />
       <Outlet />
     </FullPage>
   );

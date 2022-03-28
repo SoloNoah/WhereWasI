@@ -47,3 +47,20 @@ export async function getSeasonAnime() {
   const data = res.data.data;
   return data;
 }
+
+export async function getAnimeByName(query) {
+  const path = jikanURL + 'anime';
+  let params = {
+    q: query,
+    order_by: 'score',
+    sort: 'desc',
+  };
+  let optionsRequest = {
+    method: 'GET',
+    url: path,
+    params,
+  };
+  const res = await axios.request(optionsRequest);
+  const data = res.data.data;
+  return data;
+}

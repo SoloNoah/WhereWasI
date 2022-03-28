@@ -1,6 +1,6 @@
-import { GET_SEASON, GET_TODAY, GET_TOP } from "./actionTypes.js";
+import { GET_SEASON, GET_TODAY, GET_TOP, SEARCH_SUCCESS } from './actionTypes.js';
 
-import { getToday, getSeasonAnime, getTop } from "../../services/jikanAPI.js";
+import { getToday, getSeasonAnime, getTop, getAnimeByName } from '../../services/jikanAPI.js';
 
 //Get Today's schedules
 export const getTodaySchedule = () => async (dispatch) => {
@@ -32,6 +32,18 @@ export const getTopRated = () => async (dispatch) => {
     let response = await getTop();
     dispatch({
       type: GET_TOP,
+      payload: response,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchAnime = (query) => async (dispatch) => {
+  try {
+    let response = await getAnimeByName(query);
+    dispatch({
+      type: SEARCH_SUCCESS,
       payload: response,
     });
   } catch (error) {
