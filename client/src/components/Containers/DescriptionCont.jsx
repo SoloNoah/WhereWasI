@@ -10,8 +10,8 @@ const DescriptionWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40%;
-
+  flex: 0 1 40%;
+  margin: 0 auto;
   @media only screen and (max-width: 1280px) {
     width: 100%;
   }
