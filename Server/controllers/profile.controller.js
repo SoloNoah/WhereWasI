@@ -1,7 +1,7 @@
-const { validationResult } = require("express-validator");
+const { validationResult } = require('express-validator');
 
-const ProfileRepository = require("../repositories/profile.repository");
-const SeriesRepository = require("../repositories/series.repository");
+const ProfileRepository = require('../repositories/profile.repository');
+const SeriesRepository = require('../repositories/series.repository');
 
 const profileRepository = new ProfileRepository();
 const seriesRepository = new SeriesRepository();
@@ -19,11 +19,10 @@ const getProfile = async (req, res) => {
       user: userProfile.user,
       series: [],
     };
-    let seriesResults = await seriesRepository
-      .getSeries(idArray)
-      .then((results) => {
-        return results;
-      });
+    let seriesResults = await seriesRepository.getSeries(idArray).then((results) => {
+      return results;
+    });
+    console.log(seriesResults);
     for (let i = 0; i < seriesResults.length; i++) {
       let obj = {
         mal_id: idArray[i],
@@ -97,11 +96,7 @@ const updateEpisodeStatus = async (req, res) => {
   const user = req.user;
   const { mal_id, episodeClicked } = req.body;
   try {
-    const response = await profileRepository.updateEpisodeStatus(
-      mal_id,
-      episodeClicked,
-      user
-    );
+    const response = await profileRepository.updateEpisodeStatus(mal_id, episodeClicked, user);
     if (response.errors) {
       throw response.errors;
     }
@@ -124,7 +119,7 @@ const getEpisodes = async (req, res) => {
   let mal_id = req.query.id;
   try {
     let response = await profileRepository.getEpisodes(mal_id, user);
-    console.log("Printing response");
+    console.log('Printing response');
     console.log(response);
     const { status, episodes } = response.success;
     return res.status(status).send(episodes);
