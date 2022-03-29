@@ -28,7 +28,19 @@ export async function addSeriesToProfile(id, episodes) {
   config['headers']['x-auth-token'] = token;
   try {
     const res = await axios.post(BASE_URL + '/api/profile/add-series', body, config);
-    console.log('done?');
+  } catch (error) {
+    console.log(error);
+  }
+}
+//TODO convert getting cookie and appending to config into a more generic function and avoid repeatition
+
+export async function removeSeriesFromProfile(id) {
+  const token = getCookie('accessToken');
+  const body = JSON.stringify({ mal_id: id });
+
+  config['headers']['x-auth-token'] = token;
+  try {
+    const res = await axios.post(BASE_URL + '/api/profile/remove-series', body, config);
   } catch (error) {
     console.log(error);
   }

@@ -18,7 +18,7 @@ export default function profileReducer(state = initialState, action) {
         profile: payload,
       };
     case ADD_SERIES:
-
+    case REMOVE_SERIES:
     case PROFILE_ERROR:
       return {
         failErrorMessage: payload,

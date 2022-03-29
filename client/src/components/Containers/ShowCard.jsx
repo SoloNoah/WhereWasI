@@ -14,6 +14,7 @@ const CardWrapper = styled.div`
 `;
 const ShowCard = ({ show, handleClick }) => {
   const { mal_id, title, images, synopsis, episodes } = show;
+  const clicked = true; //TODO SEND FROM BACKEND THE DATA IF THE SHOW HAS BEEN WATCHED OR NOT SO I KNOW WHATS THE STATE AND CHANGE IT ON CLICK. FOR NOW I'M HARD CODING ADD SERIES/REMOVE SERIES FOR TESTING THE FUNCTIONALITY
   const image_url = images.jpg.image_url;
   const toggleCardStatus = () => {
     handleClick(mal_id, episodes);

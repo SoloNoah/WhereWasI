@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import ShowCard from './ShowCard';
 
-import { addSeries } from '../../store/actions/profileAction';
+import { addSeries, removeSeries } from '../../store/actions/profileAction';
 
 const CardsWrapper = styled.div`
 display: flex;
@@ -18,10 +18,11 @@ flex-wrap: wrap;
   }
 `;
 
-const CardsContainer = ({ list, addSeries }) => {
+const CardsContainer = ({ list, addSeries, removeSeries }) => {
   const toggleCardStatus = (id, episodesNum) => {
     console.log(id, episodesNum);
-    addSeries(id, episodesNum);
+    // addSeries(id, episodesNum);
+    removeSeries(id);
   };
   const listItems = list.map((d) => <ShowCard key={d.mal_id} show={d} handleClick={toggleCardStatus}></ShowCard>);
 
@@ -30,6 +31,7 @@ const CardsContainer = ({ list, addSeries }) => {
 
 const mapDispatchToProps = {
   addSeries,
+  removeSeries,
 };
 
 export default connect(null, mapDispatchToProps)(CardsContainer);
