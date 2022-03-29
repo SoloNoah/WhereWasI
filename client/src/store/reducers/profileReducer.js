@@ -1,8 +1,8 @@
-import { GET_PROFILE, PROFILE_ERROR } from "../actions/actionTypes";
+import { GET_PROFILE, PROFILE_ERROR, ADD_SERIES, REMOVE_SERIES } from '../actions/actionTypes';
 
 const initialState = {
   profile: null,
-  failErrorMessage: "",
+  failErrorMessage: '',
 };
 
 if (initialState.token) {
@@ -17,6 +17,7 @@ export default function profileReducer(state = initialState, action) {
         ...state,
         profile: payload,
       };
+    case ADD_SERIES:
 
     case PROFILE_ERROR:
       return {

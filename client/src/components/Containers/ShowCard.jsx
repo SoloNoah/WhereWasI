@@ -12,12 +12,16 @@ const CardWrapper = styled.div`
  }
   }
 `;
-const ShowCard = ({ show }) => {
-  const { mal_id, title, images, synopsis } = show;
+const ShowCard = ({ show, handleClick }) => {
+  const { mal_id, title, images, synopsis, episodes } = show;
   const image_url = images.jpg.image_url;
+  const toggleCardStatus = () => {
+    handleClick(mal_id, episodes);
+  };
   return (
     <CardWrapper>
       <DescriptionCont img={image_url} text={synopsis} title={title} />
+      <button onClick={toggleCardStatus}>Add</button>
     </CardWrapper>
   );
 };

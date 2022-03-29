@@ -9,7 +9,7 @@ class SeriesRepository {
   /**
    * TODO: Once i finish adding the front end side "search" feature i should implement pulling episode status watched/unwatched into here and send it back in 1 get request for profile + add the title to the object sent to backend + schema
    */
-  async getSeries(idArray) {
+  async getAllSeriesInProfile(idArray) {
     let tasks = [];
     const jikanURL = this.jikanURL;
 

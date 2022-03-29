@@ -19,10 +19,9 @@ const getProfile = async (req, res) => {
       user: userProfile.user,
       series: [],
     };
-    let seriesResults = await seriesRepository.getSeries(idArray).then((results) => {
+    let seriesResults = await seriesRepository.getAllSeriesInProfile(idArray).then((results) => {
       return results;
     });
-    console.log(seriesResults);
     for (let i = 0; i < seriesResults.length; i++) {
       let obj = {
         mal_id: idArray[i],
@@ -41,6 +40,7 @@ const getProfile = async (req, res) => {
 
 const addSeries = async (req, res) => {
   const errors = validationResult(req);
+  console.log('errors?');
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
@@ -49,6 +49,7 @@ const addSeries = async (req, res) => {
    * TODO: should add title of the series as well
    */
   const { mal_id, episodes } = req.body;
+  console.log(mal_id, episodes);
   let episodesArray = profileRepository.generateEpisodes(mal_id, episodes);
   let seriesToAdd = { mal_id, episodes: episodesArray };
   try {
@@ -57,8 +58,8 @@ const addSeries = async (req, res) => {
       throw response.errors;
     }
     if (response.success) {
-      const { successMessage, status } = response.success;
-      return res.status(status).send(successMessage);
+      const { successMessage, status, profile } = response.success;
+      return res.status(status).send({ status, successMessage, profile });
     }
   } catch (error) {
     const { errorMessage, status } = error.errors;

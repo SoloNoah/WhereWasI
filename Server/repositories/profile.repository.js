@@ -46,7 +46,7 @@ class ProfileRepository {
       }
       await profile.save();
 
-      return { success: { status: 200, successMessage } };
+      return { success: { status: 200, successMessage, profile } };
     } catch (error) {
       let errorMessage = error.message ? error.message : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };

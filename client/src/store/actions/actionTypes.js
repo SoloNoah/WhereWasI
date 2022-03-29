@@ -11,6 +11,8 @@ export const LOGOUT = 'LOGOUT';
 /*PROFILE */
 export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
+export const ADD_SERIES = 'ADD_SERIES';
+export const REMOVE_SERIES = 'REMOVE_SERIES';
 
 /*EXPLORE */
 export const GET_TODAY = 'GET_TODAY';

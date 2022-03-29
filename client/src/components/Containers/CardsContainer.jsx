@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
 import ShowCard from './ShowCard';
+
+import { addSeries } from '../../store/actions/profileAction';
 
 const CardsWrapper = styled.div`
 display: flex;
@@ -14,22 +18,18 @@ flex-wrap: wrap;
   }
 `;
 
-// const CardsWrapper = styled.div`
-//   margin: 0 auto;
-//   display: grid;
-//   grid-gap: 1rem;
-
-//   @media (min-width: 600px) {
-//     grid-template-columns: repeat(2, 1fr);
-//   }
-//   @media (min-width: 900px) {
-//     grid-template-columns: repeat(3, 1fr);
-//   }
-// `;
-const CardsContainer = ({ list }) => {
-  const listItems = list.map((d) => <ShowCard key={d.mal_id} show={d}></ShowCard>);
+const CardsContainer = ({ list, addSeries }) => {
+  const toggleCardStatus = (id, episodesNum) => {
+    console.log(id, episodesNum);
+    addSeries(id, episodesNum);
+  };
+  const listItems = list.map((d) => <ShowCard key={d.mal_id} show={d} handleClick={toggleCardStatus}></ShowCard>);
 
   return <CardsWrapper>{listItems}</CardsWrapper>;
 };
 
-export default CardsContainer;
+const mapDispatchToProps = {
+  addSeries,
+};
+
+export default connect(null, mapDispatchToProps)(CardsContainer);

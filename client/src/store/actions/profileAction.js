@@ -1,6 +1,7 @@
-import { GET_PROFILE, PROFILE_ERROR } from "./actionTypes";
+import { GET_PROFILE, PROFILE_ERROR, REMOVE_SERIES, ADD_SERIES } from './actionTypes';
 
-import { getUserProfile } from "../../services/profile";
+import { getUserProfile, addSeriesToProfile } from '../../services/profile';
+
 export const getProfile = () => async (dispatch) => {
   try {
     let response = await getUserProfile();
@@ -8,7 +9,7 @@ export const getProfile = () => async (dispatch) => {
       type: GET_PROFILE,
       payload: response.userProfile,
     });
-    console.log(response.userProfile);
+
     return response.userProfile;
   } catch (error) {
     dispatch({
@@ -16,5 +17,17 @@ export const getProfile = () => async (dispatch) => {
       payload: error.errorMessage,
     });
     return error.status;
+  }
+};
+
+export const addSeries = (id, episodesNum) => async (dispatch) => {
+  try {
+    let response = await addSeriesToProfile(id, episodesNum);
+    dispatch({
+      type: ADD_SERIES,
+      payload: response,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
