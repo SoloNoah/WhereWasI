@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import CardsContainer from "../CardsContainer";
-import { getTodaySchedule } from "../../../store/actions/exploreAction";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import CardsContainer from '../CardsContainer';
+import { getTodaySchedule } from '../../../store/actions/exploreAction';
 
-const Today = ({ todayList, getTodaySchedule }) => {
+const Today = ({ todayList, getTodaySchedule, failErrorMessage }) => {
   useEffect(() => {
     getTodaySchedule();
   }, []);
@@ -11,7 +11,8 @@ const Today = ({ todayList, getTodaySchedule }) => {
   return (
     <>
       <div>Today</div>
-      {todayList && <CardsContainer list={todayList} />}
+      {todayList && failErrorMessage === '' && <CardsContainer list={todayList} />}
+      {failErrorMessage && <h1>{{ failErrorMessage }}</h1>}
     </>
   );
 };
@@ -19,6 +20,7 @@ const Today = ({ todayList, getTodaySchedule }) => {
 const mapStateToProps = (state) => {
   return {
     todayList: state.exploreReducer.todayList,
+    failErrorMessage: state.exploreReducer.failErrorMessage,
   };
 };
 

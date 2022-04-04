@@ -1,4 +1,7 @@
 import axios from 'axios';
+
+import { getUserProfile } from './profile';
+
 //TODO CAN MAKE THIS MORE GENERIC,
 //RIGHT NOW  ITS VERY SPECIFIC AND CAN BE DONE MUCH BETTER + REPEATING LOTS OF ROWS.
 const days = {
@@ -22,7 +25,11 @@ export async function getToday() {
     url: path,
   };
   const res = await axios.request(optionsRequest);
-  const data = res.data.data;
+  let data = res.data.data;
+  const profile = await callToProfile();
+  if (profile) {
+    data = getShowsAlreadyInProfile(data, profile);
+  }
   return data;
 }
 
@@ -33,7 +40,12 @@ export async function getTop() {
     url: path,
   };
   const res = await axios.request(optionsRequest);
-  const data = res.data.data;
+  let data = res.data.data;
+  const profile = await callToProfile();
+  console.log(profile);
+  if (profile) {
+    data = getShowsAlreadyInProfile(data, profile);
+  }
   return data;
 }
 
@@ -44,7 +56,11 @@ export async function getSeasonAnime() {
     url: path,
   };
   const res = await axios.request(optionsRequest);
-  const data = res.data.data;
+  let data = res.data.data;
+  const profile = await callToProfile();
+  if (profile) {
+    data = getShowsAlreadyInProfile(data, profile);
+  }
   return data;
 }
 
@@ -61,6 +77,39 @@ export async function getAnimeByName(query) {
     params,
   };
   const res = await axios.request(optionsRequest);
-  const data = res.data.data;
+  let data = res.data.data;
+  const profile = await callToProfile();
+  if (profile) {
+    data = getShowsAlreadyInProfile(data, profile);
+  }
   return data;
+}
+
+async function callToProfile() {
+  console.log('?');
+
+  var profile = JSON.parse(localStorage.getItem('profile'));
+  if (!profile) {
+    try {
+      console.log('fetching profile');
+      let response = await getUserProfile();
+      console.log(response);
+      profile = [...response.userProfile.series];
+    } catch (error) {
+      return null;
+    }
+  }
+  return profile;
+}
+export function getShowsAlreadyInProfile(data, profile) {
+  let idsFromProfile = profile.map((show) => show.mal_id);
+  const updatedData = data.map((show) => {
+    if (idsFromProfile.indexOf(show.mal_id) >= 0) {
+      return { ...show, inProfile: true };
+    } else {
+      return { ...show, inProfile: false };
+    }
+  });
+
+  return updatedData;
 }

@@ -1,17 +1,24 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
-import CardsContainer from "../CardsContainer";
-import { getTopRated } from "../../../store/actions/exploreAction";
+import CardsContainer from '../CardsContainer';
+import { getTopRated } from '../../../store/actions/exploreAction';
 
-const Top = ({ topList, getTopRated }) => {
+const Top = ({ topList, getTopRated, failErrorMessage }) => {
   useEffect(() => {
     getTopRated();
   }, []);
+
+  /**
+   * failerror message here indicates that the api request from jikan failed
+   * need to put it in its own component
+   */
+
   return (
     <>
       <div>Top</div>
-      {topList && <CardsContainer list={topList} />}
+      {topList && failErrorMessage === '' && <CardsContainer list={topList} />}
+      {failErrorMessage && <h1>{{ failErrorMessage }}</h1>}
     </>
   );
 };
@@ -19,6 +26,7 @@ const Top = ({ topList, getTopRated }) => {
 const mapStateToProps = (state) => {
   return {
     topList: state.exploreReducer.topList,
+    failErrorMessage: state.exploreReducer.failErrorMessage,
   };
 };
 

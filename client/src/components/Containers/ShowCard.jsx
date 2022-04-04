@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import DescriptionCont from './DescriptionCont';
 
@@ -12,19 +13,30 @@ const CardWrapper = styled.div`
  }
   }
 `;
-const ShowCard = ({ show, handleClick }) => {
-  const { mal_id, title, images, synopsis, episodes } = show;
-  const clicked = true; //TODO SEND FROM BACKEND THE DATA IF THE SHOW HAS BEEN WATCHED OR NOT SO I KNOW WHATS THE STATE AND CHANGE IT ON CLICK. FOR NOW I'M HARD CODING ADD SERIES/REMOVE SERIES FOR TESTING THE FUNCTIONALITY
+const ShowCard = ({ show, handleClick, isAuthenticated }) => {
+  const { mal_id, title, images, synopsis, episodes, inProfile } = show;
+  const [addedShowToProfile, setShowAdd] = useState(false);
+
   const image_url = images.jpg.image_url;
+  useEffect(() => {
+    setShowAdd(inProfile);
+  }, []);
   const toggleCardStatus = () => {
-    handleClick(mal_id, episodes);
+    setShowAdd(!addedShowToProfile);
+    handleClick(mal_id, episodes, !addedShowToProfile);
   };
   return (
     <CardWrapper>
       <DescriptionCont img={image_url} text={synopsis} title={title} />
-      <button onClick={toggleCardStatus}>Add</button>
+      {isAuthenticated && <button onClick={toggleCardStatus}>{!addedShowToProfile ? 'Add' : 'Remove'}</button>}
     </CardWrapper>
   );
 };
 
-export default ShowCard;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.loginReducer.isAuthenticated,
+  };
+};
+
+export default connect(mapStateToProps, null)(ShowCard);

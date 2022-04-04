@@ -1,4 +1,4 @@
-import { GET_PROFILE, PROFILE_ERROR, REMOVE_SERIES, ADD_SERIES } from './actionTypes';
+import { GET_PROFILE, PROFILE_ERROR, REMOVE_SERIES, ADD_SERIES, RESET_MESSAGE } from './actionTypes';
 
 import { getUserProfile, addSeriesToProfile, removeSeriesFromProfile } from '../../services/profile';
 
@@ -14,7 +14,7 @@ export const getProfile = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: error.errorMessage,
+      payload: error,
     });
     return error.status;
   }
@@ -27,20 +27,33 @@ export const addSeries = (id, episodesNum) => async (dispatch) => {
       type: ADD_SERIES,
       payload: response,
     });
+    return response;
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: error,
+    });
+    return error.status;
   }
 };
 
 export const removeSeries = (id) => async (dispatch) => {
   try {
-    console.log('?');
     let response = await removeSeriesFromProfile(id);
     dispatch({
       type: REMOVE_SERIES,
       payload: response,
     });
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: error,
+    });
   }
+};
+
+export const resetMessage = () => (dispatch) => {
+  dispatch({
+    type: RESET_MESSAGE,
+  });
 };

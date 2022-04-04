@@ -1,4 +1,4 @@
-import { GET_SEASON, GET_TODAY, GET_TOP, SEARCH_SUCCESS } from './actionTypes.js';
+import { GET_SEASON, GET_TODAY, GET_TOP, SEARCH_SUCCESS, SEARCH_FAILURE } from './actionTypes.js';
 
 import { getToday, getSeasonAnime, getTop, getAnimeByName } from '../../services/jikanAPI.js';
 
@@ -6,12 +6,16 @@ import { getToday, getSeasonAnime, getTop, getAnimeByName } from '../../services
 export const getTodaySchedule = () => async (dispatch) => {
   try {
     let response = await getToday();
+
     dispatch({
       type: GET_TODAY,
       payload: response,
     });
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: SEARCH_FAILURE,
+      payload: error,
+    });
   }
 };
 
@@ -23,7 +27,10 @@ export const getSeasonalAnime = () => async (dispatch) => {
       payload: response,
     });
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: SEARCH_FAILURE,
+      payload: error,
+    });
   }
 };
 
@@ -35,7 +42,10 @@ export const getTopRated = () => async (dispatch) => {
       payload: response,
     });
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: SEARCH_FAILURE,
+      payload: error,
+    });
   }
 };
 
@@ -47,6 +57,9 @@ export const searchAnime = (query) => async (dispatch) => {
       payload: response,
     });
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: SEARCH_FAILURE,
+      payload: error,
+    });
   }
 };

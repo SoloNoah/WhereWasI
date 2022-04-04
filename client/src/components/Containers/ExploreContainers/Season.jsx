@@ -1,20 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import CardsContainer from '../CardsContainer';
 import { getSeasonalAnime } from '../../../store/actions/exploreAction';
 
-const Season = ({ seasonList, getSeasonalAnime }) => {
+const Season = ({ seasonList, getSeasonalAnime, failErrorMessage }) => {
   useEffect(() => {
     getSeasonalAnime();
   }, []);
 
-  return <>{seasonList && <CardsContainer list={seasonList} />}</>;
+  return (
+    <>
+      {seasonList && failErrorMessage === '' && <CardsContainer list={seasonList} />}
+      {failErrorMessage && <h1>{{ failErrorMessage }}</h1>}
+    </>
+  );
 };
 
 const mapStateToProps = (state) => {
   return {
     seasonList: state.exploreReducer.seasonList,
+    failErrorMessage: state.exploreReducer.failErrorMessage,
   };
 };
 

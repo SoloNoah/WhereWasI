@@ -19,3 +19,6 @@ export const GET_TODAY = 'GET_TODAY';
 export const GET_SEASON = 'GET_SEASON';
 export const GET_TOP = 'GET_TOP';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
+export const SEARCH_FAILURE = 'SEARCH_FAILURE';
+
+export const RESET_MESSAGE = 'RESET_MESSAGE';

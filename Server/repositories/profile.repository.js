@@ -28,6 +28,7 @@ class ProfileRepository {
       if (!errors) {
         let seriesArray = profile.series;
         let seriesExists = seriesArray.find((series) => series.mal_id === seriesToAdd.mal_id);
+
         if (seriesExists) {
           return {
             errors: {
@@ -45,7 +46,6 @@ class ProfileRepository {
         profile = new Profile(profileFields);
       }
       await profile.save();
-
       return { success: { status: 200, successMessage, profile } };
     } catch (error) {
       let errorMessage = error.message ? error.message : error.errors.errorMessage;

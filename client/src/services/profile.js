@@ -8,6 +8,7 @@ const config = {
 };
 
 export async function getUserProfile() {
+  console.log('cookie?');
   const token = getCookie('accessToken');
   config['headers']['x-auth-token'] = token;
   try {
@@ -16,6 +17,8 @@ export async function getUserProfile() {
   } catch (error) {
     let response = error.response;
     if (response.status === 401 || response.status === 500) {
+      console.log(response.data);
+
       throw response.data;
     }
   }
@@ -29,7 +32,8 @@ export async function addSeriesToProfile(id, episodes) {
   try {
     const res = await axios.post(BASE_URL + '/api/profile/add-series', body, config);
   } catch (error) {
-    console.log(error);
+    let response = error.response;
+    throw response.data;
   }
 }
 //TODO convert getting cookie and appending to config into a more generic function and avoid repeatition
@@ -42,6 +46,7 @@ export async function removeSeriesFromProfile(id) {
   try {
     const res = await axios.post(BASE_URL + '/api/profile/remove-series', body, config);
   } catch (error) {
-    console.log(error);
+    let response = error.response;
+    throw response.data;
   }
 }
