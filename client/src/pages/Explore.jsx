@@ -15,6 +15,7 @@ const Explore = ({ profile, isAuthenticated }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(userprofile);
     if (isAuthenticated && (userprofile === null || userprofile === undefined)) {
       dispatch(getProfile());
     }

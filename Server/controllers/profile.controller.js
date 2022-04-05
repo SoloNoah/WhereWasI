@@ -20,6 +20,9 @@ const getProfile = async (req, res) => {
       series: [],
     };
 
+    /**
+     * can send 4 requests max. maybe i should do the pagination instead of bulk requesting.
+     */
     let seriesResults = await seriesRepository.getAllSeriesInProfile(idArray).then((results) => {
       return results;
     });

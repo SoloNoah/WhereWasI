@@ -36,8 +36,6 @@ export const getSeasonalAnime = (userprofile) => async (dispatch) => {
 
 export const getTopRated = (userprofile) => async (dispatch) => {
   try {
-    console.log('in action');
-    console.log(userprofile);
     let response = await getTop(userprofile);
     dispatch({
       type: GET_TOP,

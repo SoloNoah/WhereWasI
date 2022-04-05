@@ -24,12 +24,13 @@ export const addSeries = (id, episodesNum) => async (dispatch) => {
   try {
     let response = await addSeriesToProfile(id, episodesNum);
     let episodes = await getShowEpisodes(id);
+    let addedShow = { mal_id: id, episodes };
     dispatch({
       type: ADD_SERIES,
-      payload: response,
+      payload: addedShow,
     });
 
-    return response;
+    // return response;
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,

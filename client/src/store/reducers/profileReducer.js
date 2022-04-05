@@ -1,7 +1,7 @@
 import { GET_PROFILE, PROFILE_ERROR, ADD_SERIES, REMOVE_SERIES, RESET_MESSAGE } from '../actions/actionTypes';
 
 const initialState = {
-  profile: null,
+  profile: localStorage.getItem('profile'),
   failErrorMessage: '',
   successMessage: '',
 };
@@ -11,11 +11,8 @@ if (initialState.token) {
 }
 export default function profileReducer(state = initialState, action) {
   const { type, payload } = action;
-
   switch (type) {
     case GET_PROFILE:
-      // localStorage.setItem('profile', JSON.stringify(payload.series));
-      console.log(payload);
       return {
         ...state,
         profile: payload,
@@ -27,9 +24,11 @@ export default function profileReducer(state = initialState, action) {
         successMessage: '',
       };
     case ADD_SERIES:
-      console.log(payload);
+      let newProfile = { ...state.profile };
+      newProfile.series.push(payload);
       return {
         ...state,
+        profile: { ...newProfile },
       };
     case REMOVE_SERIES:
     case PROFILE_ERROR:

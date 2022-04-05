@@ -24,7 +24,7 @@ export async function getShowEpisodes(id) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  console.log(data);
+  return data;
 }
 
 export async function getToday(userprofile) {
@@ -38,14 +38,13 @@ export async function getToday(userprofile) {
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
   const profile = await callToProfile();
-  if (profile) {
+  if (userprofile.length > 0) {
     data = getShowsAlreadyInProfile(data, profile);
   }
   return data;
 }
 
 export async function getTop(userprofile) {
-  console.log('in api');
   const path = jikanURL + 'top/anime';
   let optionsRequest = {
     method: 'GET',
@@ -53,7 +52,9 @@ export async function getTop(userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  data = getShowsAlreadyInProfile(data, userprofile);
+  if (userprofile.length > 0) {
+    data = getShowsAlreadyInProfile(data, userprofile);
+  }
 
   return data;
 }
@@ -67,13 +68,13 @@ export async function getSeasonAnime(userprofile) {
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
   const profile = await callToProfile();
-  if (profile) {
+  if (userprofile.length > 0) {
     data = getShowsAlreadyInProfile(data, profile);
   }
   return data;
 }
 
-export async function getAnimeByName(query) {
+export async function getAnimeByName(query, userprofile) {
   const path = jikanURL + 'anime';
   let params = {
     q: query,
@@ -88,7 +89,7 @@ export async function getAnimeByName(query) {
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
   const profile = await callToProfile();
-  if (profile) {
+  if (userprofile.length > 0) {
     data = getShowsAlreadyInProfile(data, profile);
   }
   return data;
