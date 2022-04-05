@@ -3,9 +3,9 @@ import { GET_SEASON, GET_TODAY, GET_TOP, SEARCH_SUCCESS, SEARCH_FAILURE } from '
 import { getToday, getSeasonAnime, getTop, getAnimeByName } from '../../services/jikanAPI.js';
 
 //Get Today's schedules
-export const getTodaySchedule = () => async (dispatch) => {
+export const getTodaySchedule = (userprofile) => async (dispatch) => {
   try {
-    let response = await getToday();
+    let response = await getToday(userprofile);
 
     dispatch({
       type: GET_TODAY,
@@ -19,9 +19,9 @@ export const getTodaySchedule = () => async (dispatch) => {
   }
 };
 
-export const getSeasonalAnime = () => async (dispatch) => {
+export const getSeasonalAnime = (userprofile) => async (dispatch) => {
   try {
-    let response = await getSeasonAnime();
+    let response = await getSeasonAnime(userprofile);
     dispatch({
       type: GET_SEASON,
       payload: response,
@@ -34,9 +34,11 @@ export const getSeasonalAnime = () => async (dispatch) => {
   }
 };
 
-export const getTopRated = () => async (dispatch) => {
+export const getTopRated = (userprofile) => async (dispatch) => {
   try {
-    let response = await getTop();
+    console.log('in action');
+    console.log(userprofile);
+    let response = await getTop(userprofile);
     dispatch({
       type: GET_TOP,
       payload: response,

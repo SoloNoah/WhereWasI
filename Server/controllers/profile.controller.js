@@ -23,7 +23,6 @@ const getProfile = async (req, res) => {
     let seriesResults = await seriesRepository.getAllSeriesInProfile(idArray).then((results) => {
       return results;
     });
-    console.log(seriesResults);
     for (let i = 0; i < seriesResults.length; i++) {
       let obj = {
         mal_id: idArray[i],
@@ -34,7 +33,6 @@ const getProfile = async (req, res) => {
 
     return res.status(200).send({ status: 200, userProfile: userData });
   } catch (error) {
-    console.log('???');
     const errorMessage = "Couldn't fetch profile";
     const status = 500;
     return res.status(status).send(errorMessage);

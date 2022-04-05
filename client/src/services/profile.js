@@ -8,17 +8,16 @@ const config = {
 };
 
 export async function getUserProfile() {
-  console.log('cookie?');
   const token = getCookie('accessToken');
   config['headers']['x-auth-token'] = token;
   try {
+    console.log('sending request');
     const res = await axios.get(BASE_URL + '/api/profile/get-profile', config);
     return res.data;
   } catch (error) {
     let response = error.response;
     if (response.status === 401 || response.status === 500) {
       console.log(response.data);
-
       throw response.data;
     }
   }

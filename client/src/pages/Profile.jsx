@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import { getProfile } from "../store/actions/profileAction";
+import { getProfile } from '../store/actions/profileAction';
 
-import FullPage from "../components/FullPage/FullPage";
+import FullPage from '../components/FullPage/FullPage';
 
 const Profile = ({ getProfile, userProfile }) => {
   const [series, setSeries] = useState([]);
@@ -13,7 +13,7 @@ const Profile = ({ getProfile, userProfile }) => {
 
   useEffect(() => {
     if (userProfile) {
-      console.log("updated");
+      console.log('updated');
       console.log(userProfile.series);
     }
   }, [userProfile]);

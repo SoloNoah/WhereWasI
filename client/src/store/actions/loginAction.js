@@ -1,16 +1,18 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "./actionTypes.js";
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_PROFILE } from './actionTypes.js';
 
-import { loginUser } from "../../services/auth";
-
+import { loginUser } from '../../services/auth';
+import { getProfile } from './profileAction';
 //LOGIN
 export const login = (newUser) => async (dispatch) => {
   try {
-    let response = await loginUser(newUser);
+    const loginResponse = await loginUser(newUser);
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: response.token,
+      payload: loginResponse.token,
     });
-    return response.status;
+
+    dispatch(getProfile());
+    return loginResponse.status;
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,

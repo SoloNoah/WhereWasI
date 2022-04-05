@@ -15,6 +15,7 @@ export default function profileReducer(state = initialState, action) {
   switch (type) {
     case GET_PROFILE:
       // localStorage.setItem('profile', JSON.stringify(payload.series));
+      console.log(payload);
       return {
         ...state,
         profile: payload,
@@ -26,6 +27,10 @@ export default function profileReducer(state = initialState, action) {
         successMessage: '',
       };
     case ADD_SERIES:
+      console.log(payload);
+      return {
+        ...state,
+      };
     case REMOVE_SERIES:
     case PROFILE_ERROR:
       return {

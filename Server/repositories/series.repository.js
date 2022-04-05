@@ -14,7 +14,7 @@ class SeriesRepository {
     const jikanURL = this.jikanURL;
 
     for (let i = 0; i < idArray.length; i++) {
-      const delay = 500 * i;
+      const delay = 700 * i;
       let path = jikanURL + 'anime/' + idArray[i] + '/episodes';
       let optionsRequest = {
         method: 'GET',
@@ -28,13 +28,16 @@ class SeriesRepository {
 
       tasks.push(promise);
     }
-    return Promise.all(tasks).then((results) => {
-      let episodeList = [];
-      results.forEach((subResult) => {
-        episodeList.push(subResult.data.data);
-      });
-      return episodeList;
-    });
+    return Promise.all(tasks)
+      .then((results) => {
+        let episodeList = [];
+        results.forEach((subResult) => {
+          episodeList.push(subResult.data.data);
+        });
+
+        return episodeList;
+      })
+      .catch((e) => console.log(e));
   }
 }
 

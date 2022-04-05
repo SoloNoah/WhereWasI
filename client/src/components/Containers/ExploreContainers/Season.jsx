@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-
+import { useOutletContext } from 'react-router-dom';
 import CardsContainer from '../CardsContainer';
 import { getSeasonalAnime } from '../../../store/actions/exploreAction';
 
 const Season = ({ seasonList, getSeasonalAnime, failErrorMessage }) => {
+  const [userprofile, setProfile] = useOutletContext();
+
   useEffect(() => {
-    getSeasonalAnime();
+    getSeasonalAnime(userprofile?.series);
   }, []);
 
   return (

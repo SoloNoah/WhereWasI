@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CardsContainer from '../CardsContainer';
 import { getTodaySchedule } from '../../../store/actions/exploreAction';
 
 const Today = ({ todayList, getTodaySchedule, failErrorMessage }) => {
+  const [userprofile, setProfile] = useOutletContext();
+
   useEffect(() => {
-    getTodaySchedule();
+    getTodaySchedule(userprofile?.series);
   }, []);
 
   return (

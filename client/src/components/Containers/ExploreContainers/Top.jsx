@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useOutletContext } from 'react-router-dom';
 
 import CardsContainer from '../CardsContainer';
 import { getTopRated } from '../../../store/actions/exploreAction';
 
 const Top = ({ topList, getTopRated, failErrorMessage }) => {
+  const [userprofile, setProfile] = useOutletContext();
   useEffect(() => {
-    getTopRated();
+    getTopRated(userprofile?.series);
   }, []);
 
   /**
