@@ -37,14 +37,13 @@ export async function getToday(userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  const profile = await callToProfile();
   if (userprofile.length > 0) {
-    data = getShowsAlreadyInProfile(data, profile);
+    data = getShowsAlreadyInProfile(data, userprofile);
   }
   return data;
 }
 
-export async function getTop(userprofile) {
+export async function getTop(userprofile = null) {
   const path = jikanURL + 'top/anime';
   let optionsRequest = {
     method: 'GET',
@@ -52,10 +51,11 @@ export async function getTop(userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
+  console.log(userprofile);
   if (userprofile.length > 0) {
     data = getShowsAlreadyInProfile(data, userprofile);
   }
-
+  console.log(data);
   return data;
 }
 
@@ -67,9 +67,8 @@ export async function getSeasonAnime(userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  const profile = await callToProfile();
   if (userprofile.length > 0) {
-    data = getShowsAlreadyInProfile(data, profile);
+    data = getShowsAlreadyInProfile(data, userprofile);
   }
   return data;
 }
@@ -88,27 +87,12 @@ export async function getAnimeByName(query, userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  const profile = await callToProfile();
-  if (userprofile.length > 0) {
-    data = getShowsAlreadyInProfile(data, profile);
-  }
+  // if (userprofile.length > 0) {
+  //   data = getShowsAlreadyInProfile(data, userprofile);
+  // }
   return data;
 }
 
-async function callToProfile() {
-  // var profile = JSON.parse(localStorage.getItem('profile'));
-  // if (!profile) {
-  //   try {
-  //     console.log('fetching profile');
-  //     let response = await getUserProfile();
-  //     console.log(response);
-  //     profile = [...response.userProfile.series];
-  //   } catch (error) {
-  //     return null;
-  //   }
-  // }
-  // return profile;
-}
 export function getShowsAlreadyInProfile(data, profile) {
   let idsFromProfile = profile.map((show) => show.mal_id);
 

@@ -1,16 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useOutletContext } from 'react-router-dom';
-
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import CardsContainer from '../CardsContainer';
 import { getTopRated } from '../../../store/actions/exploreAction';
+import { getProfile } from '../../../store/actions/profileAction';
 
-const Top = ({ topList, getTopRated, failErrorMessage }) => {
-  const [userprofile, setProfile] = useOutletContext();
+const Top = ({ topList, getTopRated, failErrorMessage, isAuthenticated, profile }) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getTopRated(userprofile?.series);
+    if (isAuthenticated && (profile === null || profile === undefined)) {
+      dispatch(getProfile());
+    }
   }, []);
 
+  useEffect(() => {
+    if (profile) {
+      getTopRated(profile?.series);
+    }
+  }, [profile]);
   /**
    * failerror message here indicates that the api request from jikan failed
    * need to put it in its own component
@@ -28,7 +35,9 @@ const Top = ({ topList, getTopRated, failErrorMessage }) => {
 const mapStateToProps = (state) => {
   return {
     topList: state.exploreReducer.topList,
+    profile: state.profileReducer.profile,
     failErrorMessage: state.exploreReducer.failErrorMessage,
+    isAuthenticated: state.loginReducer.isAuthenticated,
   };
 };
 

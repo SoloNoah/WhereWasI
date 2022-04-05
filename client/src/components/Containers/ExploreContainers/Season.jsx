@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useOutletContext } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
 import CardsContainer from '../CardsContainer';
 import { getSeasonalAnime } from '../../../store/actions/exploreAction';
+import { getProfile } from '../../../store/actions/profileAction';
 
-const Season = ({ seasonList, getSeasonalAnime, failErrorMessage }) => {
-  const [userprofile, setProfile] = useOutletContext();
+const Season = ({ seasonList, getSeasonalAnime, failErrorMessage, isAuthenticated, profile }) => {
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   getSeasonalAnime(userprofile?.series);
+  // }, []);
 
   useEffect(() => {
-    getSeasonalAnime(userprofile?.series);
+    if (isAuthenticated && (profile === null || profile === undefined)) {
+      dispatch(getProfile());
+    }
   }, []);
 
+  useEffect(() => {
+    if (profile) {
+      getSeasonalAnime(profile?.series);
+    }
+  }, [profile]);
   return (
     <>
       {seasonList && failErrorMessage === '' && <CardsContainer list={seasonList} />}
@@ -23,6 +34,8 @@ const mapStateToProps = (state) => {
   return {
     seasonList: state.exploreReducer.seasonList,
     failErrorMessage: state.exploreReducer.failErrorMessage,
+    profile: state.profileReducer.profile,
+    isAuthenticated: state.loginReducer.isAuthenticated,
   };
 };
 

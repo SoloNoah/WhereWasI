@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import CardsContainer from '../CardsContainer';
 import { getTodaySchedule } from '../../../store/actions/exploreAction';
+import { getProfile } from '../../../store/actions/profileAction';
 
-const Today = ({ todayList, getTodaySchedule, failErrorMessage }) => {
-  const [userprofile, setProfile] = useOutletContext();
+const Today = ({ todayList, getTodaySchedule, failErrorMessage, isAuthenticated, profile }) => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getTodaySchedule(userprofile?.series);
+    if (isAuthenticated && (profile === null || profile === undefined)) {
+      dispatch(getProfile());
+    }
   }, []);
 
+  useEffect(() => {
+    if (profile) {
+      getTodaySchedule(profile?.series);
+    }
+  }, [profile]);
   return (
     <>
       <div>Today</div>
@@ -24,6 +31,8 @@ const mapStateToProps = (state) => {
   return {
     todayList: state.exploreReducer.todayList,
     failErrorMessage: state.exploreReducer.failErrorMessage,
+    profile: state.profileReducer.profile,
+    isAuthenticated: state.loginReducer.isAuthenticated,
   };
 };
 
