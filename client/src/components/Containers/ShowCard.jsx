@@ -14,16 +14,16 @@ const CardWrapper = styled.div`
   }
 `;
 const ShowCard = ({ show, handleClick, isAuthenticated }) => {
-  const { mal_id, title, images, synopsis, episodes, inProfile } = show;
+  const { mal_id, title, synopsis, episodes, inProfile } = show;
   const [addedShowToProfile, setShowAdd] = useState(false);
 
-  const image_url = images.jpg.image_url;
+  const image_url = show.images ? show.images.jpg.image_url : show.image_url;
   useEffect(() => {
     setShowAdd(inProfile);
   }, []);
   const toggleCardStatus = () => {
     setShowAdd(!addedShowToProfile);
-    handleClick(mal_id, episodes, !addedShowToProfile);
+    handleClick(mal_id, episodes, synopsis, image_url, !addedShowToProfile);
   };
   return (
     <CardWrapper>

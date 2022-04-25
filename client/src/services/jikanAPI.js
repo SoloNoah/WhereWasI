@@ -51,11 +51,9 @@ export async function getTop(userprofile = null) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  console.log(userprofile);
   if (userprofile.length > 0) {
     data = getShowsAlreadyInProfile(data, userprofile);
   }
-  console.log(data);
   return data;
 }
 

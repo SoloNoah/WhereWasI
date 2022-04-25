@@ -30,10 +30,11 @@ const getProfile = async (req, res) => {
       let obj = {
         mal_id: idArray[i],
         episodes: seriesResults[i],
+        synopsis: userProfile.series[i].synopsis,
+        image_url: userProfile.series[i].image_url,
       };
       userData.series.push(obj);
     }
-
     return res.status(200).send({ status: 200, userProfile: userData });
   } catch (error) {
     const errorMessage = "Couldn't fetch profile";
@@ -51,9 +52,9 @@ const addSeries = async (req, res) => {
   /**
    * TODO: should add title of the series as well
    */
-  const { mal_id, episodes } = req.body;
+  const { mal_id, episodes, synopsis, image_url } = req.body;
   let episodesArray = profileRepository.generateEpisodes(mal_id, episodes);
-  let seriesToAdd = { mal_id, episodes: episodesArray };
+  let seriesToAdd = { mal_id, episodes: episodesArray, synopsis, image_url };
   try {
     const response = await profileRepository.addSeries(seriesToAdd, user);
     if (response.errors) {
@@ -122,8 +123,6 @@ const getEpisodes = async (req, res) => {
   let mal_id = req.query.id;
   try {
     let response = await profileRepository.getEpisodes(mal_id, user);
-    console.log('Printing response');
-    console.log(response);
     const { status, episodes } = response.success;
     return res.status(status).send(episodes);
   } catch (error) {

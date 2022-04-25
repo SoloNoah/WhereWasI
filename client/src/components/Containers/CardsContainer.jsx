@@ -24,10 +24,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const CardsContainer = ({ list, addSeries, removeSeries, resetMessage, failErrorMessage, successMessage }) => {
-  const toggleCardStatus = async (id, episodesNum, showAdded) => {
+  const toggleCardStatus = async (id, episodesNum, synopsis, image_url, showAdded) => {
     let res;
     if (showAdded) {
-      res = await addSeries(id, episodesNum);
+      res = await addSeries(id, episodesNum, synopsis, image_url);
     } else {
       res = await removeSeries(id);
     }

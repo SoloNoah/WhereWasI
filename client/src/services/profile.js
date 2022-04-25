@@ -11,21 +11,19 @@ export async function getUserProfile() {
   const token = getCookie('accessToken');
   config['headers']['x-auth-token'] = token;
   try {
-    console.log('sending request');
     const res = await axios.get(BASE_URL + '/api/profile/get-profile', config);
     return res.data;
   } catch (error) {
     let response = error.response;
     if (response.status === 401 || response.status === 500) {
-      console.log(response.data);
       throw response.data;
     }
   }
 }
 
-export async function addSeriesToProfile(id, episodes) {
+export async function addSeriesToProfile(id, episodes, synopsis, image_url) {
   const token = getCookie('accessToken');
-  const body = JSON.stringify({ mal_id: id, episodes });
+  const body = JSON.stringify({ mal_id: id, episodes, synopsis, image_url });
 
   config['headers']['x-auth-token'] = token;
   try {

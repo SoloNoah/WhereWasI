@@ -20,9 +20,9 @@ export const getProfile = () => async (dispatch) => {
   }
 };
 
-export const addSeries = (id, episodesNum) => async (dispatch) => {
+export const addSeries = (id, episodesNum, synopsis, image_url) => async (dispatch) => {
   try {
-    let response = await addSeriesToProfile(id, episodesNum);
+    let response = await addSeriesToProfile(id, episodesNum, synopsis, image_url);
     let episodes = await getShowEpisodes(id);
     let addedShow = { mal_id: id, episodes };
     dispatch({

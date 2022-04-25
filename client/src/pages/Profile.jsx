@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { getProfile } from '../store/actions/profileAction';
 
+import CardsContainer from '../components/Containers/CardsContainer';
 import FullPage from '../components/FullPage/FullPage';
 
 const Profile = ({ getProfile, userProfile }) => {
@@ -13,12 +14,12 @@ const Profile = ({ getProfile, userProfile }) => {
 
   useEffect(() => {
     if (userProfile) {
-      console.log('updated');
-      console.log(userProfile.series);
+      const userSeries = userProfile.series;
+      setSeries(userSeries);
     }
   }, [userProfile]);
 
-  return <FullPage />;
+  return <FullPage>{series.length > 0 && <CardsContainer list={series} />}</FullPage>;
 };
 
 const mapStateToProps = (state) => {

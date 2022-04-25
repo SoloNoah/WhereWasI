@@ -21,6 +21,14 @@ const SeriesSchema = new mongoose.Schema({
     required: true,
   },
   episodes: [EpisodeSchema],
+  synopsis: {
+    type: String,
+    required: true,
+  },
+  image_url: {
+    type: String,
+    required: true,
+  },
 });
 const ProfileSchema = new Schema({
   user: {

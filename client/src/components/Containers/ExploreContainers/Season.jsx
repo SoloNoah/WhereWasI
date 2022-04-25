@@ -7,10 +7,6 @@ import { getProfile } from '../../../store/actions/profileAction';
 const Season = ({ seasonList, getSeasonalAnime, failErrorMessage, isAuthenticated, profile }) => {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getSeasonalAnime(userprofile?.series);
-  // }, []);
-
   useEffect(() => {
     if (isAuthenticated && (profile === null || profile === undefined)) {
       dispatch(getProfile());

@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import CardsContainer from '../components/Containers/CardsContainer';
 import FullPage from '../components/FullPage/FullPage';
 
+import { searchAnime } from '../store/actions/exploreAction';
+
 const SearchResults = ({ searchResponseList, failErrorMessage }) => {
   useEffect(() => {
-    console.log(searchResponseList);
+    if (!searchResponseList) {
+    }
   }, []);
   return <FullPage>{searchResponseList && <CardsContainer list={searchResponseList} />}</FullPage>;
 };
