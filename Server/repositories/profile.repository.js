@@ -7,7 +7,7 @@ class ProfileRepository {
     try {
       let userData = await Profile.findOne({ user: id });
       if (!userData) {
-        userData = await new Profile({ user: id });
+        userData = await new Profile({ user: id, totalItems: 0 });
         await userData.save();
         // throw { errors: { errorMessage: 'No profile for user.', status: 400 } };
       }
@@ -25,10 +25,10 @@ class ProfileRepository {
     try {
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
+      let totalItems = profile.totalItems;
       if (!errors) {
         let seriesArray = profile.series;
         let seriesExists = seriesArray.find((series) => series.mal_id === seriesToAdd.mal_id);
-
         if (seriesExists) {
           return {
             errors: {
@@ -45,6 +45,7 @@ class ProfileRepository {
         profileFields.series = [seriesToAdd];
         profile = new Profile(profileFields);
       }
+      profile.totalItems = totalItems + 1;
       await profile.save();
       return { success: { status: 200, successMessage, profile } };
     } catch (error) {
@@ -59,6 +60,8 @@ class ProfileRepository {
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
       let removed = false;
+      let totalItems = profile.totalItems;
+
       if (!errors) {
         const removeIndex = profile.series.map((item) => item.mal_id).indexOf(mal_id);
         if (removeIndex >= 0) {
@@ -70,6 +73,7 @@ class ProfileRepository {
         }
       }
       if (removed) {
+        profile.totalItems = totalItems - 1;
         await profile.save();
       }
       return { success: { status: 200, successMessage } };

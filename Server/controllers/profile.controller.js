@@ -12,17 +12,20 @@ const getProfile = async (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
   const user = req.user;
+  const page = parseInt(req.query.page);
+  const limit = 4;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
   try {
     const userProfile = await profileRepository.findProfile(user.id);
-    const idArray = userProfile.series.map((show) => show.mal_id);
+    const slicedSeries = userProfile.series.slice(startIndex, endIndex);
+    const idArray = slicedSeries.map((show) => show.mal_id);
     const userData = {
       user: userProfile.user,
       series: [],
     };
 
-    /**
-     * can send 4 requests max. maybe i should do the pagination instead of bulk requesting.
-     */
     let seriesResults = await seriesRepository.getAllSeriesInProfile(idArray).then((results) => {
       return results;
     });

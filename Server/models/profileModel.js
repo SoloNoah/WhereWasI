@@ -36,6 +36,10 @@ const ProfileSchema = new Schema({
     ref: 'user',
   },
   series: [SeriesSchema],
+  totalItems: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
