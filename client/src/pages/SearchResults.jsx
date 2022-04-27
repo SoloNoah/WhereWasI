@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import CardsContainer from '../components/Containers/CardsContainer';
 import FullPage from '../components/FullPage/FullPage';
 
-import { searchAnime } from '../store/actions/exploreAction';
-
 const SearchResults = ({ searchResponseList, failErrorMessage }) => {
-  useEffect(() => {
-    if (!searchResponseList) {
-    }
-  }, []);
-  return <FullPage>{searchResponseList && <CardsContainer list={searchResponseList} />}</FullPage>;
+  let render = null;
+  if (searchResponseList.length === 0) {
+    render = (
+      <FullPage>
+        <h1>No results</h1>
+      </FullPage>
+    );
+  } else {
+    render = <FullPage>{searchResponseList.length > 0 && <CardsContainer list={searchResponseList} />}</FullPage>;
+  }
+
+  return render;
 };
 
 const mapStateToProps = (state) => {

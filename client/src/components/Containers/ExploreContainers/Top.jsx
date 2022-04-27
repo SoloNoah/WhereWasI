@@ -14,6 +14,9 @@ const Top = ({ topList, getTopRated, failErrorMessage, isAuthenticated, profile 
     if (topList.length === 0) getTopRated();
   }, []);
 
+  /**
+   * Dont need this because i won't be showing followed shows on the card anyway
+   */
   useEffect(() => {
     if (profile && topList.length === 0) {
       getTopRated(profile?.series);

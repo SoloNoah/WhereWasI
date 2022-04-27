@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import { Home, Login, Register, Profile, About, Explore, ErrorPage, SearchResults } from './pages';
+import { Home, Login, Register, Profile, About, Explore, ErrorPage, SearchResults, ShowDetails } from './pages';
 
 import { Today, Top, Season } from './components/Containers/ExploreContainers';
 import Navbar from './components/Navbar/Navbar';
@@ -37,6 +37,7 @@ const App = () => {
             <Route path='*' element={<ErrorPage />} />
           </Route>
           <Route path='/search/:searchQuery' element={<SearchResults />}></Route>
+          <Route path='/show/:id' element={<ShowDetails />}></Route>
           <Route path='*' element={<ErrorPage />} />
         </Routes>
         <Footer />

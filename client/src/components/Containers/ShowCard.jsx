@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -30,20 +31,25 @@ const style = {
 const ShowCard = ({ show, handleClick, isAuthenticated }) => {
   const { mal_id, title, synopsis, episodes, inProfile } = show;
   const [addedShowToProfile, setShowAdd] = useState(false);
+  const navigate = useNavigate();
 
   const image_url = show.images ? show.images.jpg.image_url : show.image_url;
   useEffect(() => {
     setShowAdd(inProfile);
   }, []);
-  const toggleCardStatus = () => {
-    setShowAdd(!addedShowToProfile);
-    handleClick(mal_id, episodes, synopsis, image_url, !addedShowToProfile);
+  // const toggleCardStatus = () => {
+  //   setShowAdd(!addedShowToProfile);
+  //   handleClick(mal_id, episodes, synopsis, image_url, !addedShowToProfile);
+  // };
+
+  const navigateToShowDetails = () => {
+    navigate('/show/' + mal_id, { state: show });
   };
   return (
     <CardWrapper>
       <DescriptionCont img={image_url} text={synopsis} title={title} />
-      {/* {isAuthenticated && <button onClick={toggleCardStatus}>{!addedShowToProfile ? 'Add' : 'Remove'}</button>} */}
-      <MainButton func={toggleCardStatus} classValue={'home-btn'} textValue={!addedShowToProfile ? 'Add' : 'Remove'} style={style} />
+      {/* {isAuthenticated && <MainButton func={toggleCardStatus} classValue={'home-btn'} textValue={!addedShowToProfile ? 'Add' : 'Remove'} style={style} />} */}
+      <MainButton func={navigateToShowDetails} classValue={'home-btn'} textValue={'View more'} style={style} />
     </CardWrapper>
   );
 };

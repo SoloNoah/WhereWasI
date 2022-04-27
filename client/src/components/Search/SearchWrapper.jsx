@@ -19,8 +19,10 @@ const SearchWrapper = ({ searchAnime }) => {
   const handleSearch = async (e) => {
     e.preventDefault();
     const form = searchForm.current;
-    await searchAnime(form['searchInput'].value);
-    navigate('/search/' + form['searchInput'].value);
+    if (form['searchInput'].value) {
+      await searchAnime(form['searchInput'].value);
+      navigate('/search/' + form['searchInput'].value);
+    }
   };
   return (
     <form ref={searchForm}>
