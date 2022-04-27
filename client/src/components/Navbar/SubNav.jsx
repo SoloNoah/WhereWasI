@@ -1,10 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const linkStyle = {
-  textDecoration: "none",
-  color: "#f2f2f2",
+  textDecoration: 'none',
+  color: '#f2f2f2',
+};
+const active = {
+  background: 'white',
+  borderRadius: '5px',
+  textDecoration: 'none',
 };
 
 const SubNavWrapper = styled.nav`
@@ -15,7 +20,6 @@ const SubNavWrapper = styled.nav`
   z-index: 0;
   height: fit-content;
   position: relative;
-
   padding: 20px 0;
   @media only screen and (max-width: 1280px) {
     flex-direction: column;
@@ -23,16 +27,17 @@ const SubNavWrapper = styled.nav`
     gap: 25px;
   }
 `;
+
 const SubNav = () => {
   return (
     <SubNavWrapper>
-      <Link to="top" style={linkStyle}>
+      <Link to='top' style={linkStyle} onClick={(e) => console.log(e.target.value)}>
         Top
       </Link>
-      <Link to="season" style={linkStyle}>
+      <Link to='season' style={linkStyle} onClick={(e) => console.log(e.target.value)}>
         Season
       </Link>
-      <Link to="today" style={linkStyle}>
+      <Link to='today' style={linkStyle} onClick={(e) => console.log(e.target.value)}>
         Today
       </Link>
     </SubNavWrapper>

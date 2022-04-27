@@ -11,7 +11,7 @@ const CardsWrapper = styled.div`
 display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
- margin: 0 auto;
+ margin: 0 40px;
  @media (max-width: 1280px) {
    flex-direction: column;
    gap: 20px;

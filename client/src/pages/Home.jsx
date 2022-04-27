@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import HomepageBanner from '../components/Card/HomepageBanner';
 import FullPage from '../components/FullPage/FullPage';
 import DesciptionsWrapper from '../components/Containers/DesciptionsWrapper';
 
-const Home = ({ isAuthenticated }) => {
+const Home = () => {
   const navigate = useNavigate();
 
   const transferToLogin = () => {
@@ -14,21 +13,12 @@ const Home = ({ isAuthenticated }) => {
   };
   return (
     <FullPage>
-      {!isAuthenticated && (
-        <>
-          <HomepageBanner title='Where was I?' subtitle="Keep track of the series you've watched lately with ease." func={transferToLogin} />
-          <DesciptionsWrapper />
-        </>
-      )}
-      {isAuthenticated}
+      <>
+        <HomepageBanner title='Where was I?' subtitle="Keep track of the series you've watched lately with ease." func={transferToLogin} />
+        <DesciptionsWrapper />
+      </>
     </FullPage>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.loginReducer.isAuthenticated,
-  };
-};
-
-export default connect(mapStateToProps, null)(Home);
+export default Home;

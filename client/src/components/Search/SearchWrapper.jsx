@@ -1,14 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { searchAnime } from '../../store/actions/exploreAction';
+import MainButton from '../Buttons/MainButton';
 
+const style = {
+  padding: '9px 18px',
+  fontSize: '15px',
+  color: '#093263',
+  backgroundColor: 'white',
+};
 const SearchWrapper = ({ searchAnime }) => {
   const searchForm = useRef();
   const navigate = useNavigate();
-  // const [submitClicked, setSubmitClicked] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,7 +25,8 @@ const SearchWrapper = ({ searchAnime }) => {
   return (
     <form ref={searchForm}>
       <TextField id={'searchInput'} className='input' variant='standard' label='Search'></TextField>
-      <button onClick={handleSearch}>Search</button>
+      {/* <button onClick={handleSearch}>Search</button> */}
+      <MainButton func={handleSearch} classValue={'home-btn'} textValue={'Search'} style={style} />
     </form>
   );
 };
