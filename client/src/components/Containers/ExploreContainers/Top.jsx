@@ -11,13 +11,15 @@ const Top = ({ topList, getTopRated, failErrorMessage, isAuthenticated, profile 
     if (isAuthenticated && (profile === null || profile === undefined)) {
       dispatch(getProfile());
     }
+    if (topList.length === 0) getTopRated();
   }, []);
 
   useEffect(() => {
-    if (profile) {
+    if (profile && topList.length === 0) {
       getTopRated(profile?.series);
     }
   }, [profile]);
+
   /**
    * failerror message here indicates that the api request from jikan failed
    * need to put it in its own component

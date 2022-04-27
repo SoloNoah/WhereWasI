@@ -11,12 +11,11 @@ const Season = ({ seasonList, getSeasonalAnime, failErrorMessage, isAuthenticate
     if (isAuthenticated && (profile === null || profile === undefined)) {
       dispatch(getProfile());
     }
+    if (seasonList.length === 0) getSeasonalAnime();
   }, []);
 
   useEffect(() => {
-    if (profile) {
-      getSeasonalAnime(profile?.series);
-    }
+    if (profile && seasonList.length === 0) getSeasonalAnime(profile?.series);
   }, [profile]);
   return (
     <>

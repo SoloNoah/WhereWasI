@@ -11,10 +11,12 @@ const Today = ({ todayList, getTodaySchedule, failErrorMessage, isAuthenticated,
     if (isAuthenticated && (profile === null || profile === undefined)) {
       dispatch(getProfile());
     }
+    if (todayList.length === 0) getTodaySchedule();
+
   }, []);
 
   useEffect(() => {
-    if (profile) {
+    if (profile && todayList.length === 0) {
       getTodaySchedule(profile?.series);
     }
   }, [profile]);

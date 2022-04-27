@@ -37,7 +37,7 @@ export async function getToday(userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  if (userprofile.length > 0) {
+  if (userprofile?.length > 0) {
     data = getShowsAlreadyInProfile(data, userprofile);
   }
   return data;
@@ -51,7 +51,7 @@ export async function getTop(userprofile = null) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  if (userprofile.length > 0) {
+  if (userprofile?.length > 0) {
     data = getShowsAlreadyInProfile(data, userprofile);
   }
   return data;
@@ -65,7 +65,7 @@ export async function getSeasonAnime(userprofile) {
   };
   const res = await axios.request(optionsRequest);
   let data = res.data.data;
-  if (userprofile.length > 0) {
+  if (userprofile?.length > 0) {
     data = getShowsAlreadyInProfile(data, userprofile);
   }
   return data;
