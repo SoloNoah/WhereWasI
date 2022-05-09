@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import CardsContainer from '../CardsContainer';
-import { getTopRated } from '../../../store/actions/exploreAction';
-import { getProfile } from '../../../store/actions/profileAction';
+import React, { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import CardsContainer from "../CardsContainer";
+import { getTopRated } from "../../../store/actions/exploreAction";
+import { getProfile } from "../../../store/actions/profileAction";
 
-const Top = ({ topList, getTopRated, failErrorMessage, isAuthenticated, profile }) => {
+const Top = ({
+  topList,
+  getTopRated,
+  failErrorMessage,
+  isAuthenticated,
+  profile,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,8 +36,7 @@ const Top = ({ topList, getTopRated, failErrorMessage, isAuthenticated, profile 
 
   return (
     <>
-      <div>Top</div>
-      {topList && failErrorMessage === '' && <CardsContainer list={topList} />}
+      {topList && failErrorMessage === "" && <CardsContainer list={topList} />}
       {failErrorMessage && <h1>{{ failErrorMessage }}</h1>}
     </>
   );

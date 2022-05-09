@@ -40,7 +40,7 @@ const ShowCard = ({ show }) => {
   };
   return (
     <CardWrapper>
-      <DescriptionCont img={image_url} text={synopsis} title={title} />
+      <DescriptionCont img={image_url} title={title} />
       <MainButton
         func={navigateToShowDetails}
         classValue={"home-btn"}
