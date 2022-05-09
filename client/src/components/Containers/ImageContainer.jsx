@@ -8,7 +8,7 @@ const ImageDiv = styled.div`
   overflow: hidden;
 
   @media (max-width: 1280px) {
-    width: ${(props) => (props.desc ? "90%" : "100px")};
+    width: ${(props) => (props.desc ? "100%" : "100px")};
   }
 `;
 

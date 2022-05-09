@@ -27,7 +27,7 @@ const ShowDescpriptionWrapper = styled.div`
 const ShowInformationWrapper = styled.div`
   width: 70%;
   @media (max-width: 1280px) {
-    width: 90%;
+    width: 100%;
     margin-top: 15px;
   }
 `;
@@ -60,26 +60,21 @@ const DataColumn = styled.div`
 
 const ShowMainDescriptionCont = ({ show }) => {
   const [navigatedShow, setNavigatedShow] = useState(undefined);
-  const [studios, setStudiosString] = useState("");
-  const [genres, setGenresString] = useState("");
-  const [score, setScore] = useState("");
-  const [episodes, setEpisodesNumber] = useState("");
-  const [status, setStatus] = useState("");
-  const [dateAired, setDateAired] = useState("");
+  const [showData, setShowData] = useState();
 
   useEffect(() => {
     if (Object.keys(show).length !== 0) {
-      console.log(show);
       setNavigatedShow(show);
       const { studios, genres } = show;
+      const studiosString = arrayToString(studios, "name");
+      const genresString = arrayToString(genres, "name");
 
-      //instead of multiple states maybe i can do a custom hook here.
-      setStudiosString(arrayToString(studios, "name"));
-      setGenresString(arrayToString(genres, "name"));
-      setScore(show.score);
-      setEpisodesNumber(show.episodes);
-      setStatus(show.status);
-      setDateAired(show.aired.string);
+      const showData = {
+        studiosString,
+        genresString,
+      };
+
+      setShowData(showData);
     }
   }, [show]);
 
@@ -99,15 +94,17 @@ const ShowMainDescriptionCont = ({ show }) => {
             <AdditionalData>
               <DataColumn>
                 <ShowPElement>Type: {navigatedShow.type}</ShowPElement>
-                <ShowPElement>Studios: {studios}</ShowPElement>
-                <ShowPElement>Date aired: {dateAired}</ShowPElement>
-                <ShowPElement>Genres: {genres}</ShowPElement>
+                <ShowPElement>Studios: {showData.studiosString}</ShowPElement>
+                <ShowPElement>
+                  Date aired: {navigatedShow.aired.string}
+                </ShowPElement>
+                <ShowPElement>Genres: {showData.genresString}</ShowPElement>
               </DataColumn>
 
               <DataColumn>
-                <ShowPElement>Score: {score}</ShowPElement>
-                <ShowPElement>Episodes: {episodes}</ShowPElement>
-                <ShowPElement>Status: {status}</ShowPElement>
+                <ShowPElement>Score: {navigatedShow.score}</ShowPElement>
+                <ShowPElement>Episodes: {navigatedShow.episodes}</ShowPElement>
+                <ShowPElement>Status: {navigatedShow.status}</ShowPElement>
               </DataColumn>
             </AdditionalData>
           </ShowInformationWrapper>
