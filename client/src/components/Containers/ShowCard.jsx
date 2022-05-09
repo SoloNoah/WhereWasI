@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { connect } from "react-redux";
 
-import DescriptionCont from './DescriptionCont';
-import MainButton from '../Buttons/MainButton';
+import DescriptionCont from "./DescriptionCont";
+import MainButton from "../Buttons/MainButton";
+
 const CardWrapper = styled.div`
   flex: 0 1 30%;
   display: flex;
@@ -23,33 +24,29 @@ const CardWrapper = styled.div`
   }
 `;
 const style = {
-  padding: '9px 18px',
-  fontSize: '15px',
-  color: '#093263',
-  backgroundColor: 'white',
+  padding: "9px 18px",
+  fontSize: "15px",
+  color: "#093263",
+  backgroundColor: "white",
 };
-const ShowCard = ({ show, handleClick, isAuthenticated }) => {
-  const { mal_id, title, synopsis, episodes, inProfile } = show;
-  const [addedShowToProfile, setShowAdd] = useState(false);
+const ShowCard = ({ show }) => {
+  const { mal_id, title, synopsis } = show;
   const navigate = useNavigate();
 
   const image_url = show.images ? show.images.jpg.image_url : show.image_url;
-  useEffect(() => {
-    setShowAdd(inProfile);
-  }, []);
-  // const toggleCardStatus = () => {
-  //   setShowAdd(!addedShowToProfile);
-  //   handleClick(mal_id, episodes, synopsis, image_url, !addedShowToProfile);
-  // };
 
   const navigateToShowDetails = () => {
-    navigate('/show/' + mal_id, { state: show });
+    navigate("/show/" + mal_id, { state: show });
   };
   return (
     <CardWrapper>
       <DescriptionCont img={image_url} text={synopsis} title={title} />
-      {/* {isAuthenticated && <MainButton func={toggleCardStatus} classValue={'home-btn'} textValue={!addedShowToProfile ? 'Add' : 'Remove'} style={style} />} */}
-      <MainButton func={navigateToShowDetails} classValue={'home-btn'} textValue={'View more'} style={style} />
+      <MainButton
+        func={navigateToShowDetails}
+        classValue={"home-btn"}
+        textValue={"View more"}
+        style={style}
+      />
     </CardWrapper>
   );
 };
