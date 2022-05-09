@@ -1,4 +1,4 @@
-const Profile = require('../models/profileModel');
+const Profile = require("../models/profileModel");
 
 class ProfileRepository {
   constructor() {}
@@ -13,14 +13,16 @@ class ProfileRepository {
       }
       return userData;
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      let errorMessage = error.message
+        ? error.message
+        : error.errors.errorMessage;
       throw { errors: { errorMessage, status: 500 } };
     }
   }
 
   async addSeries(seriesToAdd, user) {
     const profileFields = { user: user.id, series: [seriesToAdd] };
-    let successMessage = 'Added series to user profile';
+    let successMessage = "Added series to user profile";
 
     try {
       let profile = await this.findProfile(user.id);
@@ -28,18 +30,20 @@ class ProfileRepository {
       let totalItems = profile.totalItems;
       if (!errors) {
         let seriesArray = profile.series;
-        let seriesExists = seriesArray.find((series) => series.mal_id === seriesToAdd.mal_id);
+        let seriesExists = seriesArray.find(
+          (series) => series.mal_id === seriesToAdd.mal_id
+        );
         if (seriesExists) {
           return {
             errors: {
-              errorMessage: 'User already got show added to profile.',
+              errorMessage: "User already got show added to profile.",
               status: 400,
             },
           };
         }
         seriesArray.push(seriesToAdd);
         if (!profile) {
-          return { errors: { errorMessage: 'Server Error.', status: 500 } };
+          return { errors: { errorMessage: "Server Error.", status: 500 } };
         }
       } else {
         profileFields.series = [seriesToAdd];
@@ -49,25 +53,29 @@ class ProfileRepository {
       await profile.save();
       return { success: { status: 200, successMessage, profile } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      let errorMessage = error.message
+        ? error.message
+        : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };
     }
   }
 
   async removeSeries(mal_id, user) {
     try {
-      let successMessage = '';
+      let successMessage = "";
       let profile = await this.findProfile(user.id);
       let errors = profile.errors;
       let removed = false;
       let totalItems = profile.totalItems;
 
       if (!errors) {
-        const removeIndex = profile.series.map((item) => item.mal_id).indexOf(mal_id);
+        const removeIndex = profile.series
+          .map((item) => item.mal_id)
+          .indexOf(mal_id);
         if (removeIndex >= 0) {
           profile.series.splice(removeIndex, 1);
           removed = true;
-          successMessage = 'Removed from profile.';
+          successMessage = "Removed from profile.";
         } else {
           successMessage = "Item doesn't exist in profile.";
         }
@@ -78,7 +86,9 @@ class ProfileRepository {
       }
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      let errorMessage = error.message
+        ? error.message
+        : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };
     }
   }
@@ -90,13 +100,17 @@ class ProfileRepository {
 
       if (!errors) {
         let seriesArray = profile.series;
-        let show = seriesArray.find((singleShow) => singleShow.mal_id == mal_id);
+        let show = seriesArray.find(
+          (singleShow) => singleShow.mal_id == mal_id
+        );
         if (!show) {
           return {
-            errors: { errorMessage: 'Wrong show selected.', status: 400 },
+            errors: { errorMessage: "Wrong show selected.", status: 400 },
           };
         }
-        let epi = show.episodes.find((singleEpi) => singleEpi.episode == episodeClicked);
+        let epi = show.episodes.find(
+          (singleEpi) => singleEpi.episode == episodeClicked
+        );
         if (!epi) {
           return {
             errors: {
@@ -109,11 +123,13 @@ class ProfileRepository {
         await profile.save();
       }
 
-      successMessage = 'Updated episode watched status.';
+      successMessage = "Updated episode watched status.";
 
       return { success: { status: 200, successMessage } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      let errorMessage = error.message
+        ? error.message
+        : error.errors.errorMessage;
       return { errors: { errorMessage, status: 500 } };
     }
   }
@@ -121,7 +137,9 @@ class ProfileRepository {
   async getEpisodes(mal_id, user) {
     try {
       let profile = await this.findProfile(user.id);
-      let show = profile.series.find((singleShow) => singleShow.mal_id == mal_id);
+      let show = profile.series.find(
+        (singleShow) => singleShow.mal_id == mal_id
+      );
       if (!show) {
         throw {
           errors: {
@@ -134,7 +152,9 @@ class ProfileRepository {
 
       return { success: { status: 200, episodes: response } };
     } catch (error) {
-      let errorMessage = error.message ? error.message : error.errors.errorMessage;
+      let errorMessage = error.message
+        ? error.message
+        : error.errors.errorMessage;
       throw { errors: { errorMessage, status: 500 } };
     }
   }

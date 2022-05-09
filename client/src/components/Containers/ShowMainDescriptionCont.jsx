@@ -2,27 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import ImageContainer from "./ImageContainer";
+import GeneralContainer from "./GeneralContainer";
 
 import { arrayToString } from "../../services/generalFunctions";
-
-const ShowDescpriptionWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 0 auto;
-  width: 70%;
-  border: 1px solid white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  margin-top: 50px;
-  height: auto;
-  justify-content: space-between;
-
-  @media (max-width: 1280px) {
-    flex-direction: column;
-    width: 90%;
-    align-items: center;
-  }
-`;
 
 const ShowInformationWrapper = styled.div`
   width: 70%;
@@ -81,7 +63,7 @@ const ShowMainDescriptionCont = ({ show }) => {
   return (
     <>
       {navigatedShow && (
-        <ShowDescpriptionWrapper>
+        <GeneralContainer>
           {navigatedShow.images && (
             <ImageContainer src={navigatedShow.images?.jpg?.image_url} desc />
           )}
@@ -108,8 +90,15 @@ const ShowMainDescriptionCont = ({ show }) => {
               </DataColumn>
             </AdditionalData>
           </ShowInformationWrapper>
-        </ShowDescpriptionWrapper>
+        </GeneralContainer>
       )}
+
+      <GeneralContainer col>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+      </GeneralContainer>
     </>
   );
 };

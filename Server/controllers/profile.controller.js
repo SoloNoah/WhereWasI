@@ -1,7 +1,7 @@
-const { validationResult } = require('express-validator');
+const { validationResult } = require("express-validator");
 
-const ProfileRepository = require('../repositories/profile.repository');
-const SeriesRepository = require('../repositories/series.repository');
+const ProfileRepository = require("../repositories/profile.repository");
+const SeriesRepository = require("../repositories/series.repository");
 
 const profileRepository = new ProfileRepository();
 const seriesRepository = new SeriesRepository();
@@ -12,7 +12,7 @@ const getProfile = async (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
   const user = req.user;
-  const page = parseInt(req.query.page);
+  const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = 4;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
@@ -25,10 +25,11 @@ const getProfile = async (req, res) => {
       user: userProfile.user,
       series: [],
     };
-
-    let seriesResults = await seriesRepository.getAllSeriesInProfile(idArray).then((results) => {
-      return results;
-    });
+    let seriesResults = await seriesRepository
+      .getAllSeriesInProfile(idArray)
+      .then((results) => {
+        return results;
+      });
     for (let i = 0; i < seriesResults.length; i++) {
       let obj = {
         mal_id: idArray[i],
@@ -38,6 +39,7 @@ const getProfile = async (req, res) => {
       };
       userData.series.push(obj);
     }
+    // console.log(userData);
     return res.status(200).send({ status: 200, userProfile: userData });
   } catch (error) {
     const errorMessage = "Couldn't fetch profile";
@@ -103,7 +105,11 @@ const updateEpisodeStatus = async (req, res) => {
   const user = req.user;
   const { mal_id, episodeClicked } = req.body;
   try {
-    const response = await profileRepository.updateEpisodeStatus(mal_id, episodeClicked, user);
+    const response = await profileRepository.updateEpisodeStatus(
+      mal_id,
+      episodeClicked,
+      user
+    );
     if (response.errors) {
       throw response.errors;
     }
