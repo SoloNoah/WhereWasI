@@ -7,6 +7,8 @@ import GeneralContainer from './GeneralContainer';
 import { arrayToString } from '../../services/generalFunctions';
 import { getAllEpisodesDetails } from '../../services/pagination';
 
+import ReactPaginate from 'react-paginate';
+
 const ShowInformationWrapper = styled.div`
   width: 70%;
   @media (max-width: 1280px) {
@@ -45,10 +47,17 @@ const ShowMainDescriptionCont = ({ show }) => {
   const [navigatedShow, setNavigatedShow] = useState(undefined);
   const [showData, setShowData] = useState();
   const [episodeData, setEpisodeData] = useState();
+  const [episodeRender, setEpisodeRender] = useState();
 
-  const fetchData = async (mal_id, episodes) => {
-    const data = await getAllEpisodesDetails(mal_id, episodes);
+  const fetchData = async (mal_id, episodes, page = 1) => {
+    const data = await getAllEpisodesDetails(mal_id, episodes, page);
+
     setEpisodeData(data);
+    const renderList = data.map((d) => {
+      let title = d.title ? d.title : 'No title';
+      return <li key={d.mal_id}>{title}</li>;
+    });
+    setEpisodeRender(renderList);
   };
   useEffect(() => {
     if (Object.keys(show).length !== 0) {
@@ -65,6 +74,10 @@ const ShowMainDescriptionCont = ({ show }) => {
       setShowData(showData);
     }
   }, [show]);
+
+  const handlePageClick = (event) => {
+    fetchData(show.mal_id, show.episodes, event.selected + 1);
+  };
 
   return (
     <>
@@ -95,12 +108,13 @@ const ShowMainDescriptionCont = ({ show }) => {
         </GeneralContainer>
       )}
 
-      <GeneralContainer col>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-      </GeneralContainer>
+      {episodeRender && (
+        <GeneralContainer col>
+          {episodeRender}
+          <ReactPaginate pageCount={navigatedShow.episodes / 4} pageRange={2} onPageChange={handlePageClick} />
+        </GeneralContainer>
+      )}
+      {!episodeRender && <GeneralContainer col>Loading...</GeneralContainer>}
     </>
   );
 };
