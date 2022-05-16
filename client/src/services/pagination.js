@@ -33,7 +33,7 @@ export const getAllEpisodesDetails = async (id, episodesNum, page = 1) => {
         results.forEach((subResult) => {
           episodeList.push(subResult.data.data);
         });
-        return episodeList;
+        return { episodeList, page };
       })
       .catch((e) => console.log(e));
   } catch (error) {}
