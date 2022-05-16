@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import CardsContainer from '../CardsContainer';
-import { getTodaySchedule } from '../../../store/actions/exploreAction';
-import { getProfile } from '../../../store/actions/profileAction';
+import React, { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import CardsContainer from "../CardsContainer";
+import { getTodaySchedule } from "../../../store/actions/exploreAction";
+import { getProfile } from "../../../store/actions/profileAction";
 
-const Today = ({ todayList, getTodaySchedule, failErrorMessage, isAuthenticated, profile }) => {
+const Today = ({
+  todayList,
+  getTodaySchedule,
+  failErrorMessage,
+  isAuthenticated,
+  profile,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,7 +18,6 @@ const Today = ({ todayList, getTodaySchedule, failErrorMessage, isAuthenticated,
       dispatch(getProfile());
     }
     if (todayList.length === 0) getTodaySchedule();
-
   }, []);
 
   useEffect(() => {
@@ -22,8 +27,9 @@ const Today = ({ todayList, getTodaySchedule, failErrorMessage, isAuthenticated,
   }, [profile]);
   return (
     <>
-      <div>Today</div>
-      {todayList && failErrorMessage === '' && <CardsContainer list={todayList} />}
+      {todayList && failErrorMessage === "" && (
+        <CardsContainer list={todayList} />
+      )}
       {failErrorMessage && <h1>{{ failErrorMessage }}</h1>}
     </>
   );
