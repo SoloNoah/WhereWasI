@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
-import ImageContainer from "./ImageContainer";
-import GeneralContainer from "./GeneralContainer";
+import ImageContainer from './ImageContainer';
+import GeneralContainer from './GeneralContainer';
 
-import { arrayToString } from "../../services/generalFunctions";
+import { arrayToString } from '../../services/generalFunctions';
+import { getAllEpisodesDetails } from '../../services/pagination';
 
 const ShowInformationWrapper = styled.div`
   width: 70%;
@@ -43,19 +44,24 @@ const DataColumn = styled.div`
 const ShowMainDescriptionCont = ({ show }) => {
   const [navigatedShow, setNavigatedShow] = useState(undefined);
   const [showData, setShowData] = useState();
+  const [episodeData, setEpisodeData] = useState();
 
+  const fetchData = async (mal_id, episodes) => {
+    const data = await getAllEpisodesDetails(mal_id, episodes);
+    setEpisodeData(data);
+  };
   useEffect(() => {
     if (Object.keys(show).length !== 0) {
       setNavigatedShow(show);
-      const { studios, genres } = show;
-      const studiosString = arrayToString(studios, "name");
-      const genresString = arrayToString(genres, "name");
+      const { studios, genres, mal_id, episodes } = show;
+      const studiosString = arrayToString(studios, 'name');
+      const genresString = arrayToString(genres, 'name');
 
       const showData = {
         studiosString,
         genresString,
       };
-
+      fetchData(mal_id, episodes);
       setShowData(showData);
     }
   }, [show]);
@@ -64,9 +70,7 @@ const ShowMainDescriptionCont = ({ show }) => {
     <>
       {navigatedShow && (
         <GeneralContainer>
-          {navigatedShow.images && (
-            <ImageContainer src={navigatedShow.images?.jpg?.image_url} desc />
-          )}
+          {navigatedShow.images && <ImageContainer src={navigatedShow.images?.jpg?.image_url} desc />}
 
           <ShowInformationWrapper>
             <InformationHeader>
@@ -77,9 +81,7 @@ const ShowMainDescriptionCont = ({ show }) => {
               <DataColumn>
                 <ShowPElement>Type: {navigatedShow.type}</ShowPElement>
                 <ShowPElement>Studios: {showData.studiosString}</ShowPElement>
-                <ShowPElement>
-                  Date aired: {navigatedShow.aired.string}
-                </ShowPElement>
+                <ShowPElement>Date aired: {navigatedShow.aired.string}</ShowPElement>
                 <ShowPElement>Genres: {showData.genresString}</ShowPElement>
               </DataColumn>
 

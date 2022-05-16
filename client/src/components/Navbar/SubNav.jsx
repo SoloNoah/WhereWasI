@@ -31,6 +31,7 @@ const SubNavWrapper = styled.nav`
 const SubNav = () => {
   return (
     <SubNavWrapper>
+      {/* TODO: onclick - function to highlight the button or not needed? */}
       <Link to='top' style={linkStyle} onClick={(e) => console.log(e.target.value)}>
         Top
       </Link>

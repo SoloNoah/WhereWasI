@@ -27,6 +27,11 @@ export async function getShowEpisodes(id) {
   return data;
 }
 
+export async function getEpisodeById(id){
+  
+}
+
+
 export async function getToday(userprofile) {
   const dayNum = new Date().getDay();
   const day = days[dayNum];

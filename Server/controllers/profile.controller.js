@@ -39,7 +39,6 @@ const getProfile = async (req, res) => {
       };
       userData.series.push(obj);
     }
-    // console.log(userData);
     return res.status(200).send({ status: 200, userProfile: userData });
   } catch (error) {
     const errorMessage = "Couldn't fetch profile";

@@ -12,7 +12,6 @@ export async function getUserProfile() {
   config["headers"]["x-auth-token"] = token;
   try {
     const res = await axios.get(BASE_URL + "/api/profile/get-profile", config);
-    console.log(res);
     return res.data;
   } catch (error) {
     let response = error.response;

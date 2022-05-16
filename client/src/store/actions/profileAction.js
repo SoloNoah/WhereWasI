@@ -16,7 +16,6 @@ import { getShowEpisodes } from "../../services/jikanAPI";
 export const getProfile = () => async (dispatch) => {
   try {
     let response = await getUserProfile();
-    console.log(response);
     dispatch({
       type: GET_PROFILE,
       payload: response.userProfile,
